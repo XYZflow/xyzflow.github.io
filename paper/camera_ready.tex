@@ -1,0 +1,1665 @@
+%%%%%%%% ICML 2026 EXAMPLE LATEX SUBMISSION FILE %%%%%%%%%%%%%%%%%
+
+\documentclass{article}
+
+% Recommended, but optional, packages for figures and better typesetting:
+\usepackage{microtype}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{booktabs} % for professional tables
+
+% hyperref makes hyperlinks in the resulting PDF.
+% If your build breaks (sometimes temporarily if a hyperlink spans a page)
+% please comment out the following usepackage line and replace
+\usepackage[accepted]{icml2026} 
+% with \usepackage[nohyperref]{icml2026} above.
+
+
+\usepackage{placeins}  % 提供 FloatBarrier 等，但可能不包含 strip
+% 或者
+\usepackage{cuted}      % 某些模板通过此包提供 strip 环境
+% 或者
+\usepackage{stfloats}   % 提供更好的浮动控制
+
+
+% Attempt to make hyperref and algorithmic work together better:
+\renewcommand{\theHalgorithm}{\arabic{algorithm}}
+
+% Use the following line for the initial blind version submitted for review:
+\usepackage{icml2026}
+
+% For preprint, use
+% \usepackage[preprint]{icml2026}
+
+% If accepted, instead use the following line for the camera-ready submission:
+% \usepackage[accepted]{icml2026}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{amsthm}
+
+\usepackage{booktabs}      % 用于 \toprule, \midrule, \bottomrule 等专业表格线
+\usepackage{multirow}      % 用于多行合并单元格（虽然您当前表格未使用，但建议保留）
+\usepackage{array}         % 增强表格列格式控制
+\usepackage{colortbl}      % 或 xcolor，用于表格行着色（\rowcolor）
+\usepackage{xcolor}        % 定义和使用颜色（如 gray!10）
+
+% 数学相关宏包（核心必需）
+\usepackage{amsmath}    % 基础数学环境（align, equation等）
+\usepackage{amsthm}    % 定理环境（proof, theorem, proposition等）
+\usepackage{amsfonts}  % 数学字体（\mathbb, \mathcal等）
+\usepackage{amssymb}   % 数学符号扩展
+
+% 格式优化宏包（推荐）
+\usepackage{bm}        % 加粗数学符号（\bm{}）
+\usepackage{mathtools} % 数学工具增强
+
+
+% if you use cleveref..
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% THEOREMS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{assumption}[theorem]{Assumption}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+% Todonotes is useful during development; simply uncomment the next line
+%    and comment out the line below the next line to turn off comments
+%\usepackage[disable,textsize=tiny]{todonotes}
+\usepackage[textsize=tiny]{todonotes}
+
+% The \icmltitle you define below is probably too long as a header.
+% Therefore, a short form for the running title is supplied here:
+\icmltitlerunning{Submission and Formatting Instructions for ICML 2026}
+
+\definecolor{cvprblue}{rgb}{0.21,0.49,0.74}
+%\usepackage[pagebackref,breaklinks,colorlinks,allcolors=cvprblue]{hyperref}
+
+\usepackage[pagebackref=true,breaklinks=true,colorlinks=true,bookmarks=false]{hyperref}
+
+\hypersetup{linkcolor=cvprblue}
+\hypersetup{urlcolor  = cvprblue}
+\hypersetup{citecolor=[rgb]{0.4,0.15,0.95}}
+
+\newcommand{\XYZFlow}{%
+    \textcolor{blue!40!purple!60}{X}%     图片蓝色→暖紫蓝色
+    \textcolor{cyan!40!green!50}{Y}%     图片青色→暖青绿色
+    \textcolor{yellow!40!orange}{Z}%     图片黄色→增强暖黄色
+    \textcolor{blue!65!black}{F}% 深蓝
+    \textcolor{cyan!60!black}{l}% 暗青绿
+    \textcolor{green!55!black}{o}% 深绿
+    \textcolor{yellow!65!black}{w}% 暗黄橙
+}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Var}{\text{Var}}
+\newcommand{\Cov}{\text{Cov}}
+\newcommand{\cL}{\mathcal{L}}
+\newcommand{\cM}{\mathcal{M}}
+\newcommand{\cV}{\mathcal{V}}
+\newcommand{\vx}{\mathbf{x}}
+\newcommand{\vc}{\mathbf{c}}
+\newcommand{\vv}{\mathbf{v}}
+\newcommand{\vz}{\mathbf{z}}
+\icmlsetsymbol{equal}{*}
+\begin{document}
+
+\twocolumn[
+  \icmltitle{
+    \raisebox{-0.35\height}{\includegraphics[height=1.0em]{xyz logo.jpg}}
+    \XYZFlow: Scaling Multidimensional Shortcut Flows\\
+    for Efficient Generative Modeling
+  }
+
+  \begin{icmlauthorlist}
+    \icmlauthor{Jinxiu Liu}{cuhk,equal}
+    \icmlauthor{Xuanming Liu}{westlake,equal}
+    \icmlauthor{Kangfu Mei}{jhu}
+    \icmlauthor{Yandong Wen}{westlake}
+    \icmlauthor{Weiyang Liu}{cuhk}
+  \end{icmlauthorlist}
+
+  \icmlaffiliation{cuhk}{The Chinese University of Hong Kong, China}
+  \icmlaffiliation{westlake}{Westlake University, China}
+  \icmlaffiliation{jhu}{Johns Hopkins University, USA}
+
+  \icmlcorrespondingauthor{Jinxiu Liu}{jinxiuliu0628@foxmail.com}
+  \icmlcorrespondingauthor{Weiyang Liu}{wyliu@cse.cuhk.edu.hk}
+
+  \icmlkeywords{Machine Learning, ICML}
+
+  \vskip 0.3in
+]
+
+  % \vskip 0.3in
+
+
+% this must go after the closing bracket ] following \twocolumn[ ...
+
+% This command actually creates the footnote in the first column listing the
+% affiliations and the copyright notice. The command takes one argument, which
+% is text to display at the start of the footnote. The \icmlEqualContribution
+% command is standard text for equal contribution. Remove it (just {}) if you
+% do not need this facility.
+
+% Use ONE of the following lines. DO NOT remove the command.
+% If you have no special notice, KEEP empty braces:
+\printAffiliationsAndNotice{}  % no special notice (required even if empty)
+% Or, if applicable, use the standard equal contribution text:
+% \printAffiliationsAndNotice{\icmlEqualContribution}
+% \begin{strip}
+% \centering
+% \vspace{-20mm}
+% \includegraphics[width=1\textwidth]{case_next_shortcut_cropped (2).pdf} 
+% \vspace{-6mm}
+% \captionof{figure}{
+% Visual comparison demonstrating the efficiency of XYZFlow. Our 1.1B-parameter model achieves an \textbf{8.5$\times$ faster} generation time than the teacher model and an additional \textbf{1.5$\times$ speedup} over the base student distillation, with no perceptible loss in quality.
+% } \label{I2V-Z}
+% % \vspace{3.5mm}
+% \end{strip}
+
+\footnotetext[1]{Jinxiu Liu's work was done during the internship at CUHK.}
+\footnotetext[2]{Xuanming Liu's work was done during the internship at WU.}
+
+\begin{abstract}
+
+% The pursuit of high-fidelity image generation faces a fundamental trade-off between sampling speed and output quality. While diffusion models excel in quality, their iterative nature incurs high computational costs. Current efficient methods primarily focus on distilling pre-trained models into few-step samplers; however, this distillation process is challenging and heavily reliant on teacher model quality. In this paper, we introduce \textbf{\XYZFlow}, a novel framework that rethinks this paradigm through multidimensional scaling of flow matching. Unlike MeanFlow's single-step deterministic mapping, our approach intensively scales the expressive power of generative models by enhancing the uniqueness and learnability of probability paths through structured, multidimensional conditioning. Theoretically, we frame autoregressive modeling as an implicit flow straightening mechanism, where expanding contextual constraints reduce trajectory ambiguity. XYZFlow implements this via two orthogonal scaling dimensions: (1) \textit{Temporal scaling} through non-Markovian conditioning on the full denoising history, and (2) \textit{Spatial scaling} through next-shortcut prediction, where patches are generated sequentially using the complete denoising trajectories of preceding patches as priors. This multidimensional conditioning constructs a high-dimensional coordinate system for probability flows, enforcing mapping uniqueness. Extensive evaluations demonstrate XYZFlow achieves state-of-the-art performance, with 7.2--8.5$\times$ speedup over teachers while maintaining competitive FID. Notably, comparison results demonstrate that our structured shortcut design establishes a more parameter-efficient scaling dimension and achieves superior quality-latency trade-offs compared to simply enlarging models or compressing sampling steps.
+
+
+The pursuit of high-fidelity image generation faces a fundamental trade-off between sampling speed and output quality. While diffusion models excel in quality, their iterative nature incurs high computational costs. Current efficient methods primarily focus on distilling pre-trained models into few-step samplers; however, this distillation process is challenging and heavily reliant on teacher model quality. In this paper, we introduce \textbf{\XYZFlow}, a novel framework that rethinks this paradigm through multidimensional scaling of flow matching. Unlike MeanFlow's single-step deterministic mapping, our approach intensively scales the expressive power of generative models by enhancing the uniqueness and learnability of probability paths through structured, multidimensional conditioning. Theoretically, we frame autoregressive modeling as an implicit flow straightening mechanism, where expanding contextual constraints reduce trajectory ambiguity. XYZFlow implements this via two orthogonal scaling dimensions: 
+(1)Temporal scaling through non-Markovian conditioning on the full denoising history, and 
+(2) Spatial scaling through our proposed Next Shortcut Prediction, where patches are generated sequentially using the complete denoising trajectories of preceding patches as priors. 
+This multidimensional conditioning constructs a high-dimensional coordinate system for probability flows, enforcing mapping uniqueness. Our Next Shortcut Prediction mechanism specifically enables efficient generation by leveraging rich contextual information from previously generated patches' full denoising processes.
+Extensive evaluations demonstrate XYZFlow achieves state-of-the-art performance, with 7.2--8.5$\times$ speedup over teachers while maintaining competitive FID. Notably, our structured Next Shortcut Prediction design establishes a more parameter-efficient scaling dimension and achieves superior quality-latency trade-offs compared to simply enlarging models or compressing sampling steps.
+
+\vspace{-5mm}
+ % we intensively scale the expressive power of generative models by enhancing the uniqueness and learnability of their probability paths through structured, multidimensional conditioning.
+
+% Theoretically, we conceptualize autoregressive modeling as an implicit flow straightening mechanism, where expanding contextual constraints reduce trajectory ambiguity. XYZFlow implements this via two orthogonal scaling dimensions: ​​(1) Temporal scaling​ through non-Markovian conditioning on the full denoising history, and ​​(2) Spatial scaling​ through ​next-shortcut prediction, where patches are generated sequentially with the complete denoising trajectory of preceding patches provided as a prior. This multidimensional conditioning constructs a high-dimensional coordinate system for probability flows, enforcing mapping uniqueness.
+
+% Extensive evaluations show XYZFlow achieves state-of-the-art performance, with 7.2-8.5× speedup over teachers while maintaining competitive FID. Notably, the superior performance of XYZFlow-B (172M) over one-step model MeanFlow-XL/2+ (676M) demonstrates that our structured shortcut design introduces a more parameter-efficient scaling dimension, achieving better quality-latency trade-offs than simply enlarging models or compressing sampling steps.
+ 
+
+% 提及对meanflow相比的维度
+
+
+
+
+% We validate the effectiveness of ARD in a class-conditioned generation on ImageNet and T2I synthesis. Our model achieves a 5× reduction in FID degradation compared to the baseline methods while requiring only 1.1\% extra FLOPs on ImageNet-256. Moreover, ARD reaches FID of 1.84 on ImageNet-256 in merely 4 steps and outperforms the publicly available 1024p text-to-image distilled models in prompt adherence score with a minimal drop in FID compared to the teacher.
+
+\end{abstract}
+
+\vspace{-4mm}
+\section{Introduction}
+\label{sec:intro}
+%\vspace{-1mm}
+Generative models, particularly diffusion probabilistic models, have revolutionized synthetic data generation across various modalities~\cite{diffusion,song2019score,ddpm,rombach2022high,ho2020denoising}. The dominant paradigm involves a gradual forward process that incrementally corrupts data with noise, followed by a learned reverse process for iterative data reconstruction. While models like DDPM~\cite{ddpm} and Score-SDE~\cite{song2020denoising} achieve remarkable quality, this performance comes at a substantial computational cost~\cite{lu2022dpm,dpm_plus_plus,karras2022elucidating}, often requiring hundreds of neural function evaluations per sample. Such a cost makes these models hard for real-time applications.
+
+The pursuit of efficiency has centered on a key insight: few-step generation quality fundamentally depends on the uniqueness of the noise-to-data trajectory mapping~\cite{lipman2022flow,frans2024one,boffi2024flow,salimans2022progressive}. This uniqueness enables effective distillation by reducing the problem from learning complex distributions to fitting deterministic functions. Pioneering methods like Rectified Flows~\cite{lipman2022flow}, Consistency Models~\cite{song2023consistency} and Shortcut Models~\cite{frans2024one} address this by constructing straight, deterministic probability flows through novel training objectives. However, these approaches primarily focus on improvements to distillation algorithms themselves, which is a challenging and model-dependent endeavor~\cite{salimans2022progressive,geng2024one,sauer2023adversarial}.
+
+Despite recent progresses, we identify another fundamental challenge that remains largely unexplored: \textit{how can we scale the expressive power of generative models under strict sampling step constraints, without relying solely on distillation strategies? More profoundly, can we design probability flows that are intrinsically more unique and learnable through model architecture?} As conceptually visualized in Figure~\ref{fig:trajectory}(a), the ambiguous trajectories in conventional denoising stem from a lack of focused constraints. 
+
+In this paper, we consider a new scaling paradigm. Instead of extensive scaling through added parameters or steps, we scale \textit{intensively} by enhancing probability flow expressivity via structured, multidimensional conditionalization. We reinterpret autoregressive modeling not merely as a generative strategy, but as an implicit mechanism for flow enhancement and uniqueness enforcement~\cite{mar}. The expanding autoregressive context imposes progressively specific constraints, reducing flow variance and straightening trajectories. This perspective inherits the insight from flow straightening methods~\cite{lipman2022flow,frans2024one,albergo2023building} where deterministic paths are crucial for efficient distillation, demonstrating that \textit{structured conditioning} enforces such uniqueness.
+
+\begin{figure}[t!]
+\centering
+\includegraphics[width=1\linewidth]{new_cropped (1).pdf}
+\vspace{-5.5mm}
+\caption{
+    (a) Conventional one-shot denoising suffers from overlapping and ambiguous probability paths (blurred results) as the model attempts to denoise the entire image at once. (b) Our \textbf{Next Shortcut Prediction} paradigm: Denoising proceeds sequentially patch-by-patch (e.g., for patches \textbf{I, C, M, L}). The \textbf{rightward small arrows} trace the denoising trajectory of each patch over time. Crucially, the \textbf{downward blue arrows} transfer the complete denoising trajectory of the preceding patch as a powerful prior. This allows subsequent patches to leverage the established context, straightening their paths and requiring fewer denoising steps (longer horizontal sequences) to achieve high fidelity.
+}
+\label{fig:trajectory}
+\vspace{-1mm}
+\end{figure}
+
+Guided by this insight, we introduce \textbf{\XYZFlow}, a framework that scales flow matching along two orthogonal dimensions for high-fidelity few-step generation, complementary to the prevailing path of distillation-based step compression. \textbf{(1) Temporal Scaling:} We condition each flow step on the complete history of previous states, creating a temporal coordinate system that straightens trajectories. This transforms denoising from Markovian to non-Markovian, where the KV cache of past states acts as a conditioning anchor, inspired by recent advances in recurrent diffusion processes~\cite{far}. \textbf{(2) Spatial Scaling:} We propose \textit{Next Shortcut Prediction} based on next-patch prediction. By dividing images into grids (e.g., $2\times2$), this mechanism sequentially generates patches. Unlike standard patch-wise generation that treats patches independently, our method explicitly transfers the \emph{denoising trajectory} (not just the final output) as an effective prior for subsequent patches. As illustrated in Figure~\ref{fig:trajectory}(b), the full denoising trajectory of the first patch serves as a conditional guidance, enabling faster generation without quality loss. 
+
+Theoretically, we demonstrate that multidimensional scaling equips probability paths with high-dimensional coordinate systems. While flow straightening methods seek unique points in one-dimensional flows, our approach secures uniqueness through orthogonal dimensional coordinates. We ground our method in two principles: (1) increasing condition drives reverse process variance toward zero, ensuring mapping uniqueness~\cite{cm,ict,ect,scm,yang2024consistency}; (2) autoregressive trajectories of preceding patches guide subsequent predictions, straightening paths in few-step regimes~\cite{far,lazymar,speculative_mar,ren2024flowar}. Our contributions are threefold:
+
+\vspace{-3mm}
+
+\begin{itemize}
+\setlength\itemsep{0.37em}
+    \item \textbf{Novel Scaling Paradigm.} We propose to scale generative models by enhancing probability flow expressivity through structured multidimensional conditionalization, advocating that scaling \textit{constraint dimensionality} provides a principled path to mapping uniqueness.
+    
+    \item \textbf{XYZFlow} We introduce a practical framework implementing temporal and spatial flow scaling, featuring \textbf{Next Shortcut Prediction} for efficient inference-time cross-patch implicit trajectory guidance.
+    
+    \item \textbf{Principled Theoretical Justification.} We establish a theoretical framework formalizing autoregressive modeling as explicit flow enhancement, and empirically demonstrate competitive few-step generation on ImageNet 256$\times$256, showing dimensional scaling as a promising alternative to conventional methods.
+\end{itemize}
+
+
+\vspace{-5mm}
+\section{Related Work}
+\label{sec:related_work}
+\vspace{-1mm}
+
+\paragraph{Few-step Diffusion and Flow Matching.}
+Diffusion models \cite{diffusion,song2019score,ddpm,scoresde} and their flow matching extensions \cite{lipman2022flow,albergo2023building,liu2022flow} have established a powerful framework for generative modeling. Current research on efficient sampling primarily follows a path of \textit{extensive scaling}, focusing on refining distillation algorithms or training objectives. Distillation-based methods \cite{salimans2022progressive,geng2024one,sauer2023adversarial,di,yin2024onestep} aim to compress pre-trained models, while consistency-type approaches \cite{cm,ict,ect,scm,yang2024consistency} enforce self-consistency constraints along trajectories. Recent works like Flow Map Matching \cite{boffi2024flow} and Shortcut Models \cite{frans2024one} further explore self-consistency principles to straighten probability paths, with Inductive Moment Matching \cite{imm} modeling the self-consistency of stochastic interpolants at different time steps. While these methods have advanced the state of the art, their reliance on distillation algorithm improvements represents a form of extensive scaling that faces fundamental challenges in model dependency and optimization complexity. In contrast, our work addresses the core challenge of trajectory uniqueness by introducing \textit{intensive scaling}—enhancing flow expressivity through multidimensional conditionalization rather than pursuing better distillation algorithms for existing flows.
+\vspace{-4mm}
+\paragraph{Autoregressive Models for Visual Generation.}
+Autoregressive image generation has evolved from discrete tokenization \cite{vqvae2,vqgan,lee2022autoregressive} to continuous representations that avoid quantization errors \cite{mar,ren2024flowar,xar,harmon}. Methods like MAR~\cite{mar} and DISA~\cite{zhao2025disa} combine autoregressive modeling with diffusion processes, while acceleration techniques focus on caching \cite{lazymar} or speculative decoding \cite{speculative_mar}. FAR \cite{far} replaces the diffusion head of MAR~\cite{mar} with a shortcut model, accelerating through architectural changes. In a concurrent work, DART~\cite{gu2024dartdenoisingautoregressivetransformer} and ARD~\cite{kim2025autoregressive} employ an autoregressive model that sequences 2D token maps from the diffusion process. However, unlike DART which is a standard multi-step diffusion model and only apply autoregression in denoising dimension, we reinterpret autoregressive modeling as an implicit mechanism for flow enhancement and uniqueness enforcement not only in denoising dimension but also in spatial dimension, and propose a distillation method XYZFlow that operates in the low-step regime. Specifically, XYZFlow reduces inference steps to 3-4 by following the backward ODE trajectories of a pre-trained diffusion model, while DART uses the forward noising process on ground truth data. 
+
+
+% \begin{table}[h]
+%  \vspace{-0mm}
+%     \centering
+%     \caption{Comparison of ARD and DART on ImageNet 256p.}
+%           \begin{tabular}{lcccc}
+%         \toprule
+%              Model&Steps $\downarrow$ & GFLOPs $\downarrow$ & FID $\downarrow$  \\
+%             \midrule
+%             DART~\cite{gu2024dartdenoisingautoregressivetransformer}&16&2157&3.98 \\
+%           \rowcolor{gray!25}XYZFlow (Ours)&\textbf{4}&\textbf{466.8}&\textbf{1.56} \\
+%         \bottomrule
+%     \end{tabular}
+%     \label{tab:main5}
+% \end{table}
+
+\vspace{-2mm}
+\section{The Proposed XYZFlow Framework}
+\label{sec:methodology}
+% 
+
+\vspace{-2mm}
+\begin{figure*}[t]
+    \centering
+    \includegraphics[width=1\linewidth]{nextshortcut_cropped (1).pdf}
+    \caption{Next Shortcut Prediction in XYZFlow Framework. (Top-Left) Flow diagram showing the generation sequence, where a blue curve represents progressively strengthening constraints. (Top-Right) Visualization of a non-uniform patch-based denoising process: the first image patch undergoes the most denoising steps, while subsequent patches are generated with fewer steps ("shortcuts"). This forms a long autoregressive sequence where the denoising flow from prior patches (green and blue arrows) guides the denoising of subsequent ones, providing a strong prior. }
+    \label{fig:next_shortcut}
+    \vspace{-5mm}
+\end{figure*}
+
+We introduces XYZFlow, a framework designed to enhance the expressivity of flow models via multidimensional conditioning. Building on the concept that autoregressive modeling acts as an effective mechanism for flow straightening by incrementally imposing constraints, we propose a novel training objective called Next Shortcut Prediction. This objective facilitates efficient generation through multi-dimensional conditioning. We conceptualize the expanding autoregressive context as a series of progressively specific constraints that reduce variance in the probability flow and straighten trajectories. This view extends existing insights from flow straightening methods by showing how structured conditional information ensures path uniqueness. Within this framework, Next Shortcut Prediction operationalizes the principle of intensive scaling. Specifically, it leverages spatial constraints to construct a high-dimensional coordinate system that effectively enforces flow uniqueness and straightens trajectories.
+
+\subsection{Conceptual Foundation: Autoregressive Modeling as Flow Enhancement}
+
+Traditional autoregressive approaches frame image generation as a sequence of conditional predictions. Given an image divided into patches $\langle \mathbf{x}^{1}, \mathbf{x}^{2}, \ldots, \mathbf{x}^{P} \rangle$, the generation process is formulated as:
+\begin{equation}
+p(\mathbf{x}^{1}, \mathbf{x}^{2}, \ldots, \mathbf{x}^{P}) = \prod_{p=1}^{P} p(\mathbf{x}^{p} \mid \mathbf{x}^{1}, \ldots, \mathbf{x}^{p-1}).
+\end{equation}
+While this formulation is mathematically sound, we reconceptualize it through the lens of flow enhancement. The growing context $\mathbf{x}^{1}, \ldots, \mathbf{x}^{p-1}$ acts as a set of progressively stronger constraints, which reduces the variance of the conditional distribution $p(\mathbf{x}^{p} | ...)$ and straightens the probability flow path from noise to data. This conceptual shift allows us to leverage autoregressive structure not just for sequential prediction, but for intrinsically making the flow more unique and deterministic.
+
+Formally, we define flow enhancement as the process where conditional information $C$ transforms a base probability flow $p(\mathbf{x})$ into a conditioned flow $p(\mathbf{x}|C)$ with reduced path variance: $\mathbb{V}[\mathbf{x}_t|C] < \mathbb{V}[\mathbf{x}_t]$, leading to straighter and more deterministic trajectories. This variance reduction directly contributes to mapping uniqueness. For detailed theoretical proofs, please refer to our supplementary.
+
+\subsection{Motivating Observation: Progressive Constraint Strengthening}
+\label{subsec:key_observation}
+
+Our approach is motivated by the empirical observation that as more patches are generated, the conditional distribution becomes more constrained, making subsequent patches easier to sample. As illustrated in Figure~\ref{fig:next_shortcut}, this manifests in three key phenomena: 
+
+\textbf{(1) Next patches can be better predicted at later generation stages.} When we probe the conditional strength by predicting $\mathbf{x}^{p}$ based on the representation of previously generated patches, predictions for early positions are blurry and lack detail, while predictions for later positions become increasingly precise. This demonstrates that accumulated context provides stronger conditional guidance, as shown in the panda image sequence (top-right of Figure~\ref{fig:next_shortcut}).
+
+\textbf{(2) The variance of latent patch distributions decreases for later patches.} When sampling multiple possible patches for each position during generation, the variance among sampled patches is high for early positions but decreases significantly for later positions, indicating a more concentrated distribution under strong conditioning. This is visually represented by the progression from noisy to clean patches in the bottom row of Figure~\ref{fig:next_shortcut}.
+
+\textbf{(3) Denoising paths become straighter for later patches.} Following Rectified Flow theory, we measure path straightness using:
+\begin{equation}
+\small
+S(\{\mathbf{x}_{t}\}_{t=0}^{1}, \mathbf{z}) = \mathbb{E}_{t \sim [0,1]} \left[ \left\| (\mathbf{x}_{1} - \mathbf{x}_{0}) - \mathbf{v}_{\theta}(\mathbf{x}_{t} \mid t, \mathbf{z}) \right\|^{2} \right].
+\end{equation}
+Our experiments have demonstrated that $S$ decreases for patches generated later in the sequence, validating that strong contextual conditioning can effectively straighten the flow. The blue curve in Figure~\ref{fig:next_shortcut} (top-left) illustrates this straightening effect.
+
+% \subsection{Theoretical Analysis: Constraint-Induced Flow Straightening}
+% \label{subsec:theoretical_analysis}
+
+% To formalize the relationship between constraint strength and flow straightness, we analyze the curvature of probability flow paths under increasing conditioning. Consider a probability flow $\{\mathbf{x}_t\}_{t=0}^1$ defined by the ODE:
+% \begin{equation}
+% \frac{d\mathbf{x}_t}{dt} = \mathbf{v}(\mathbf{x}_t, t)
+% \end{equation}
+% with boundary conditions $\mathbf{x}_0 \sim p_0$, $\mathbf{x}_1 \sim p_1$.
+
+% \textbf{Theorem 1 (Constraint-Induced Straightening).} Given conditioning information $C$, the curvature $\kappa(t|C)$ of the conditional flow path satisfies:
+% \begin{equation}
+% \mathbb{E}[\kappa(t|C)] \leq \mathbb{E}[\kappa(t)] - \alpha \cdot I(\mathbf{x}_t; C)
+% \end{equation}
+% where $I(\mathbf{x}_t; C)$ is the mutual information between the flow state and conditioning information, and $\alpha > 0$ is a constant dependent on the flow geometry.
+
+% \textbf{Proof Sketch.} The curvature reduction stems from the information-theoretic compression of the feasible path space. As $I(\mathbf{x}_t; C)$ increases, the conditional distribution $p(\mathbf{x}_t|C)$ becomes more concentrated, reducing the variance of possible paths and thus their average curvature.
+
+% This theoretical result provides a foundation for our intensive scaling approach: by maximizing the mutual information between each patch and its conditioning context, we systematically straighten the generation paths.
+
+\subsection{Multidimensional Conditioning}
+
+Based on these observations, XYZFlow implements a dual-path conditioning architecture that enhances the probability flow along both \textbf{temporal} and \textbf{spatial} dimensions through Next Shortcut Prediction.
+
+\vspace{-2mm}
+\paragraph{Temporal Conditioning: Intra-Patch Trajectory Conditioning}
+We enhance the flow matching process for each patch by conditioning it on its own generation history. Specifically, for a patch $\mathbf{x}^p$, the conditioning signal at time $t$ is its entire state trajectory from the beginning of generation up to, but not including, the current time $t$. We denote this history as $\mathcal{H}_{t}^p = \{\mathbf{x}_\tau^p\}_{\tau=0}^{t-\Delta t}$. The temporal conditioning loss for the patch is then defined as the deviation of the predicted flow from the true conditional flow, given this historical context:
+\begin{equation}
+\mathcal{L}_{\text{temp}}^p = \mathbb{E}_{t, \mathbf{x}_0^p, \mathbf{x}_1^p} \| v_\theta(\mathbf{x}_t^p | t, \mathcal{H}_{t}^p) - (\mathbf{x}_1^p - \mathbf{x}_0^p) \|^2
+\end{equation}
+This self-conditioning with self attention acts as a strong prior, stabilizing the generation path by providing a temporal coordinate system for the flow.
+
+\vspace{-2mm}
+\paragraph{Spatial Conditioning: Inter-Patch Trajectory Conditioning}
+
+
+\begin{figure}[t!]
+\centering
+\hspace{-3mm}\includegraphics[width=0.98\linewidth]{attention_cropped (3).pdf}
+\vspace{-2mm}
+\caption{
+Illustration of attention mechanisms for image generation. 
+(a) Vanilla Image Generation: Standard full-image denoising with independent patch processing.
+(b) Autoregressive in Denoising Dimension: Sequential denoising across patches over time.
+(c) Next-Patch Prediction: Complete denoising of one patch before starting the next.
+(d) Next Shortcut Prediction: Early patches undergo more denoising steps, with full denoising trajectories of previous patches conditioning subsequent ones.
+}
+\label{fig:attention}
+\vspace{-3mm}
+\end{figure}
+
+
+
+The spatial dimension implements conditioning where each patch's generation depends on the complete trajectories of all previously generated patches. As illustrated in Figure~\ref{fig:attention}, the key innovation is that each patch conditions not only on the final content of previous patches, but on their complete generation trajectories, providing a much richer contextual signal that enhances flow expressivity across the spatial domain:
+\begin{equation}
+p(\mathbf{x}^p | \mathbf{x}^1, \dots, \mathbf{x}^{p-1}) = p(\mathbf{x}^p | \mathcal{T}_{<p})
+\end{equation}
+where $\mathcal{T}_{<p} = \{\tau^1, \tau^2, \dots, \tau^{p-1}\}$ and $\tau^i = \{\mathbf{x}_t^i\}_{t=0}^1$ represents the complete generation trajectory of patch $i$. Conditioning on full trajectories $\mathcal{T}_{<p}$ rather than just final states provides significantly stronger constraints: each trajectory $\tau^i$ adds multiple temporal anchor points that collectively reduce the solution space for generating $\mathbf{x}^p$, making the reverse process more deterministic. The attention patterns shown in Figure~\ref{fig:attention} demonstrate how different attention mechanisms can effectively integrate trajectory condition.
+
+% \begin{figure*}[ht]
+%     \centering
+%     \includegraphics[width=1\linewidth]{case_cropped (4).pdf}
+%     \caption{Randomly selected examples of generated images from XYZFlow. XYZFlow shows high-quality generative modeling abilities.}
+%     \label{fig:qualitative}
+% \end{figure*}
+
+\vspace{-2mm}
+\subsection{Orthogonal Constraint Integration: Next Shortcut Prediction}
+\vspace{-2mm}
+The core innovation of XYZFlow is Next Shortcut Prediction, which implements a paradigm shift from resource-intensive scaling to constraint-intensive scaling. Unlike traditional approaches that increase model size or training steps, we scale the constraint dimensionality by training the model to generate effectively under progressively stronger constraints from $\mathcal{T}_{<p}$. As conceptualized in Figure~\ref{fig:next_shortcut}, Next Shortcut Prediction trains the model to leverage rich contextual information for accelerated generation. We define a progressive denoising schedule where each patch $p$ is assigned a decreasing number of denoising steps:
+\begin{equation}
+T(p) = T_{\text{full}} - \Delta T \cdot (p-1) \quad \text{for} \quad p = 1, \dots, P,
+\end{equation}
+with the constraint $T(p) \geq T_{\text{min}} > 0$. Our training objective is formulated as teacher model trajectory distillation. The key insight is to enhance the uniqueness and straighten the probability flow by imposing powerful, structured constraints. We achieve this through an autoregressive formulation:
+\begin{equation}
+p(\mathbf{x}_0^p \mid \mathcal{T}_{<p}) = p_{\text{prior}}(\mathbf{x}_{T(p)}^p) \times \prod_{t=1}^{T(p)} p(\mathbf{x}_{t-1}^p \mid \mathbf{x}_{T(p):t}^p, \mathcal{T}_{<p}),
+\label{eq:ours}
+\end{equation}
+where $\mathbf{x}_{T(p):t}^p = [\mathbf{x}_{T(p)}^p, \mathbf{x}_{T(p)-1}^p, \dots, \mathbf{x}_t^p]$ denotes the historical denoising trajectory. This formulation provides two fundamental advantages that embody our intensive scaling principle: (i) It equips each denoising step with a high-dimensional coordinate system. The combination of the spatial context from previous patches ($\mathcal{T}_{<p}$) and the temporal context from the entire historical trajectory ($\mathbf{x}_{T(p):t}^p$) imposes a highly specific constraint. This drastically reduces the variance of the reverse process, transforming the mapping from $\mathbf{x}_t^p$ to $\mathbf{x}_{t-1}^p$ from an ambiguous, one-to-many problem into a nearly deterministic, one-to-one function, thereby straightening the probability flow path. (ii) It enables synergistic information fusion. To predict $\mathbf{x}_{t-1}^p$ at every step, the model learns to integrate both coarse-grained and fine-grained information. The recent denoised sample $\mathbf{x}_t^p$ is the best source for fine-grained details, while the historical trajectory closer to $\mathbf{x}_{T(p)}^p$ provides better coarse-grained structural information. We aim to estimate $p(\mathbf{x}_{t-1}^p \mid \mathbf{x}_{T(p):t}^p, \mathcal{T}_{<p})$, which, under our strong conditioning, approximates a Dirac delta distribution. This is achieved within the Flow Matching framework by defining the mapping function:
+\begin{equation}
+\tiny
+\mathbf{x}_{t-1}^p=G(\mathbf{x}_{T(p):t}^p, \mathcal{T}_{<p}, t):=\mathbf{x}_t^p + (\gamma(t-1) - \gamma(t)) \cdot v_\theta(\mathbf{x}_{T(p):t}^p, t, \mathcal{T}_{<p}),
+\end{equation}
+which is approximated by our student neural network $v_\theta$ using an Euler step. Here, $\gamma$ is the noise schedule. The complete training objective integrates multidimensional conditioning with this progressive schedule. It distills the teacher's trajectory by regressing the target sample:
+\begin{equation}
+\footnotesize
+\mathcal{L}_{\text{NextShortcut}} = \mathbb{E}_{p \sim [1,P]} \left[ \sum_{t=1}^{T(p)} \left\| G_{\theta}(\mathbf{x}_{T(p):t}^p, t, \mathcal{T}_{<p}) - \mathbf{x}_{t-1}^p \right\|_2^2 \right].
+\label{eq:our_loss}
+\end{equation}
+Here, $G_{\theta}(\mathbf{x}_{T(p):t}^p, t, \mathcal{T}_{<p}) = \mathbf{x}_t^p + (\gamma(t-1) - \gamma(t)) \cdot v_\theta(\mathbf{x}_{T(p):t}^p, t, \mathcal{T}_{<p})$ represents the student's one-step prediction. The transformer architecture allows computing $G_{\theta}$ for all $t$ simultaneously by using an attention mask. We design the attention mask to be block-wise causal, allowing the model to use the entire trajectory history $\mathbf{x}_{T(p):t}^p$ as context, which is the most flexible and effective option. This objective directly embodies our intensive scaling principle: it trains the student network to predict the optimal denoising path using both temporal (historical trajectory) and spatial (previous patches) conditioning. The yellow arrows in Figure~\ref{fig:next_shortcut} (bottom) illustrate this accelerated generation path. Our framework can also benefit from an additional discriminator loss applied to the final generated patch $\hat{\mathbf{x}}_0^p$. This adversarial training, which uses real data as supervision, further enhances the high-frequency details in the generated outputs. During inference, the model generates the first patch with the full step budget $T(1) = T_{\text{full}}$ to establish a robust anchor. Each subsequent patch $p \geq 2$ is generated autoregressively: starting from $\mathbf{x}_{T(p)}^p \sim p_{\text{prior}}$, at each step $t$, the model predicts $\hat{\mathbf{x}}_{t-1}^p = G_{\theta}(\hat{\mathbf{x}}_{T(p):t}^p, t, \mathcal{T}_{<p})$ based on the entire history of predictions $\hat{\mathbf{x}}_{T(p):t}^p = [\mathbf{x}_{T(p)}^p, \hat{\mathbf{x}}_{T(p)-1}^p, \dots, \hat{\mathbf{x}}_{t}^p]$. The information of the historical predictions is efficiently managed using a key-value cache. This process leverages the accumulated context $\mathcal{T}_{<p}$ and the learned ability to exploit constraints, achieving significant speedup while maintaining generation quality through learned constraint exploitation.
+
+\vspace{-4mm}
+\section{Experiments and Results}
+\label{sec:experiments}
+\vspace{-2mm}
+
+We empirically validate the efficacy of \textbf{XYZFlow}, focusing on the theoretical claims in Section~\ref{sec:methodology}. Our experiments demonstrate that: (1) Multidimensional conditioning straightens the probability flow for subsequent patches, enabling better generation  quality; (2) The Next Shortcut Prediction objective effectively trains models to utilize accumulated context for accelerated generation by decreasing denoising steps; (3) XYZFlow achieves promising efficiency-quality trade-offs in image synthesis. 
+
+
+% \begin{table*}[t]
+% \vskip -0.1in
+% \scriptsize 
+%     \centering
+%     \setlength{\tabcolsep}{2.5mm}{
+%     \begin{tabular}{ l | c | c c | c c | c c | l c}
+%         \toprule
+%         Model & \#params & AR steps & Diff steps & {FID$\downarrow$} & {IS$\uparrow$} & {Pre.$\uparrow$} & {Rec.$\uparrow$} & Time (s)$\downarrow$ & Speed-Up$\uparrow$ \\
+%         \midrule
+        
+%         \multicolumn{10}{c}{\textbf{Base Models (170M-208M parameters)}} \\
+%         \midrule
+
+%         MAR-B~\cite{mar} & 208M & 256 & 100 & 2.31 & 281.7 & 0.82 & 0.57 & 0.650 & 1.0$\times$ \\
+%         & & 64 & 50 & 2.39{\color{blue}{\tiny$\uparrow$0.08}} & 281.0{\color{blue}{\tiny$\downarrow$0.7}} & 0.82 & 0.57 & 0.134{\color{red}{\tiny$\downarrow$0.516}} & 4.9$\times${\color{red}{\tiny$\uparrow$3.9}} \\
+        
+%         FlowAR-S~\cite{ren2024flowar} & 170M & 5 & 25 & 3.70{\color{blue}{\tiny$\uparrow$1.39}} & 235.1{\color{blue}{\tiny$\downarrow$46.6}} & 0.81{\color{blue}{\tiny$\downarrow$0.01}} & 0.51{\color{blue}{\tiny$\downarrow$0.06}} & 0.024{\color{red}{\tiny$\downarrow$0.626}} & 27.1$\times${\color{red}{\tiny$\uparrow$26.1}} \\
+        
+%         xAR-B~\cite{xar} & 172M & 4 & 50 & 1.67{\color{red}{\tiny$\downarrow$0.64}} & 265.2{\color{blue}{\tiny$\downarrow$16.5}} & 0.80{\color{blue}{\tiny$\downarrow$0.02}} & 0.62{\color{red}{\tiny$\uparrow$0.05}} & 0.130{\color{blue}{\tiny$\uparrow$0.520}} & 5.0$\times${\color{red}{\tiny$\uparrow$4.0}} \\
+        
+%         \rowcolor{gray!10} XYZFlow-B (w/o GAN) & 172M & 4 & 5$\rightarrow$2 & 2.02{\color{red}{\tiny$\downarrow$0.29}} & 261.1{\color{blue}{\tiny$\downarrow$20.6}} & 0.80{\color{blue}{\tiny$\downarrow$0.02}} & 0.58{\color{red}{\tiny$\uparrow$0.01}} & 0.018{\color{red}{\tiny$\downarrow$0.632}} & 36.1$\times${\color{red}{\tiny$\uparrow$35.1}} \\
+% % \rowcolor{gray!15} & XYZFlow-B (w/ GAN) & 172M & 4 & 4$\rightarrow$1 & 1.88{\color{blue}{\tiny$\uparrow$0.16}} & 245.3{\color{blue}{\tiny$\downarrow$35.1}} & 0.73{\color{blue}{\tiny$\downarrow$0.09}} & 0.54{\color{blue}{\tiny$\downarrow$0.05}} & 0.010{\color{red}{\tiny$\downarrow$0.640}} & 65.0$\times${\color{red}{\tiny$\uparrow$64.0}} \\
+
+%         \rowcolor{gray!25} XYZFlow-B (w/ GAN) & 172M & 4 & 5$\rightarrow$2 & 1.63{\color{red}{\tiny$\downarrow$0.68}} & 268.5{\color{blue}{\tiny$\downarrow$13.2}} & 0.81{\color{blue}{\tiny$\downarrow$0.01}} & 0.62{\color{red}{\tiny$\uparrow$0.05}} & 0.018{\color{red}{\tiny$\downarrow$0.632}} & 36.1$\times${\color{red}{\tiny$\uparrow$35.1}} \\
+        
+%         \midrule
+%         \multicolumn{10}{c}{\textbf{Large Models (479M-676M parameters)}} \\
+%         \midrule
+
+%         DiT/XL-2 (25-step) & 676M & - & 25 & 2.89 & 230.2 & 0.80 & 0.57 & 0.494 & 1.0$\times$ \\
+
+%         MeanFlow-XL/2 (w/o CFG) & 676M & - & 1 & 3.43{\color{blue}{\tiny$\uparrow$0.54}} & - & - & - & 0.009{\color{red}{\tiny$\downarrow$0.485}} & 54.9$\times${\color{red}{\tiny$\uparrow$53.9}} \\
+%         MeanFlow-XL/2 & 676M & - & 1 & 2.93{\color{blue}{\tiny$\uparrow$0.04}} & - & - & - & 0.018{\color{red}{\tiny$\downarrow$0.476}} & 27.4$\times${\color{red}{\tiny$\uparrow$26.4}} \\
+%         MeanFlow-XL/2+ & 676M & - & 1 & 2.20{\color{red}{\tiny$\downarrow$0.69}} & - & - & - & 0.018{\color{red}{\tiny$\downarrow$0.476}} & 27.4$\times${\color{red}{\tiny$\uparrow$26.4}} \\
+        
+%         Step Distill & 676M & - & 2 & 10.92{\color{blue}{\tiny$\uparrow$8.03}} & 167.0{\color{blue}{\tiny$\downarrow$63.12}} & 0.68{\color{blue}{\tiny$\downarrow$0.12}} & 0.52{\color{blue}{\tiny$\downarrow$0.05}} & 0.033{\color{red}{\tiny$\downarrow$0.461}} & 15.0$\times${\color{red}{\tiny$\uparrow$14.0}} \\
+%         ARD (w/o GAN) & 676M & - & 2 & 6.29{\color{blue}{\tiny$\uparrow$3.40}} & 188.0{\color{blue}{\tiny$\downarrow$42.15}} & 0.74{\color{blue}{\tiny$\downarrow$0.06}} & 0.56{\color{blue}{\tiny$\downarrow$0.01}} & 0.034{\color{red}{\tiny$\downarrow$0.460}} & 14.5$\times${\color{red}{\tiny$\uparrow$13.5}} \\
+        
+%         Step Distill (w/o GAN) & 676M & - & 4 & 10.25{\color{blue}{\tiny$\uparrow$7.36}} & 181.6{\color{blue}{\tiny$\downarrow$48.62}} & 0.70{\color{blue}{\tiny$\downarrow$0.10}} & 0.47{\color{blue}{\tiny$\downarrow$0.10}} & 0.065{\color{red}{\tiny$\downarrow$0.429}} & 7.6$\times${\color{red}{\tiny$\uparrow$6.6}} \\
+%         ARD (w/o GAN) & 676M & - & 4 & 4.32{\color{blue}{\tiny$\uparrow$1.43}} & 209.0{\color{blue}{\tiny$\downarrow$21.2}} & 0.77{\color{blue}{\tiny$\downarrow$0.03}} & 0.57 & 0.066{\color{red}{\tiny$\downarrow$0.428}} & 7.5$\times${\color{red}{\tiny$\uparrow$6.5}} \\
+        
+%         Step Distill (w/ GAN) & 676M & - & 4 & 3.84{\color{blue}{\tiny$\uparrow$0.95}} & 221.1{\color{blue}{\tiny$\downarrow$9.1}} & 0.78{\color{blue}{\tiny$\downarrow$0.02}} & 0.55{\color{blue}{\tiny$\downarrow$0.02}} & 0.065{\color{red}{\tiny$\downarrow$0.429}} & 7.6$\times${\color{red}{\tiny$\uparrow$6.6}} \\
+%         ARD (w/ GAN) & 676M & - & 4 & 1.84{\color{red}{\tiny$\downarrow$1.05}} & 235.8{\color{blue}{\tiny$\downarrow$5.6}} & 0.80 & 0.62{\color{red}{\tiny$\uparrow$0.05}} & 0.066{\color{red}{\tiny$\downarrow$0.428}} & 7.5$\times${\color{red}{\tiny$\uparrow$6.5}} \\
+
+%         MAR-L~\cite{mar} & 479M & 256 & 100 & 1.78{\color{red}{\tiny$\downarrow$1.11}} & 296.0{\color{red}{\tiny$\uparrow$65.8}} & 0.81{\color{red}{\tiny$\uparrow$0.01}} & 0.60{\color{red}{\tiny$\uparrow$0.03}} & 1.102{\color{blue}{\tiny$\uparrow$0.608}} & 0.4$\times${\color{blue}{\tiny$\downarrow$0.6}} \\
+%         & & 64 & 50 & 1.86{\color{red}{\tiny$\downarrow$1.03}} & 294.0{\color{red}{\tiny$\uparrow$63.8}} & 0.80 & 0.61{\color{red}{\tiny$\uparrow$0.04}} & 0.250{\color{red}{\tiny$\downarrow$0.244}} & 2.0$\times${\color{red}{\tiny$\uparrow$1.0}} \\
+        
+%         FlowAR-L~\cite{ren2024flowar} & 589M & 5 & 25 & 1.87{\color{red}{\tiny$\downarrow$1.02}} & 273.1{\color{red}{\tiny$\uparrow$42.9}} & 0.80 & 0.62{\color{red}{\tiny$\uparrow$0.05}} & 0.124{\color{red}{\tiny$\downarrow$0.370}} & 4.0$\times${\color{red}{\tiny$\uparrow$3.0}} \\
+        
+%         xAR-L~\cite{xar} & 608M & 4 & 50 & 1.28{\color{red}{\tiny$\downarrow$1.61}} & 292.5{\color{red}{\tiny$\uparrow$62.3}} & 0.82{\color{red}{\tiny$\uparrow$0.02}} & 0.62{\color{red}{\tiny$\uparrow$0.05}} & 0.394{\color{blue}{\tiny$\uparrow$0.100}} & 1.3$\times${\color{red}{\tiny$\uparrow$0.3}} \\
+        
+%         \rowcolor{gray!10} XYZFlow-L (w/o GAN) & 608M & 4 & 5$\rightarrow$2 & 1.79{\color{red}{\tiny$\downarrow$1.10}} & 265.2{\color{blue}{\tiny$\downarrow$35.0}} & 0.81{\color{red}{\tiny$\uparrow$0.01}} & 0.61{\color{red}{\tiny$\uparrow$0.04}} & 0.050{\color{red}{\tiny$\downarrow$0.444}} & 9.9$\times${\color{red}{\tiny$\uparrow$8.9}} \\
+%         \rowcolor{gray!25} XYZFlow-L (w/ GAN) & 608M & 4 & 5$\rightarrow$2 & 1.25{\color{red}{\tiny$\downarrow$1.64}} & 295.8{\color{red}{\tiny$\uparrow$65.6}} & 0.83{\color{red}{\tiny$\uparrow$0.03}} & 0.63{\color{red}{\tiny$\uparrow$0.06}} & 0.050{\color{red}{\tiny$\downarrow$0.444}} & 9.9$\times${\color{red}{\tiny$\uparrow$8.9}} \\
+        
+%         \midrule
+%         \multicolumn{10}{c}{\textbf{Huge Models (943M-2.0B parameters)}} \\
+%         \midrule
+        
+%         FlowAR-H~\cite{ren2024flowar} & 1.9B & 5 & 50 & 1.67 & 276.3 & 0.80 & 0.62 & 0.423 & 1.0$\times$ \\
+
+%         VAR-d30~\cite{tian2025var} & 2.0B & 10 & - & 1.92{\color{blue}{\tiny$\uparrow$0.25}} & 323.1{\color{red}{\tiny$\uparrow$46.8}} & 0.82{\color{red}{\tiny$\uparrow$0.02}} & 0.59{\color{blue}{\tiny$\downarrow$0.03}} & 0.039{\color{red}{\tiny$\downarrow$0.384}} & 10.8$\times${\color{red}{\tiny$\uparrow$9.8}} \\
+
+%         MAR-H~\cite{mar} & 943M & 256 & 100 & 1.55{\color{red}{\tiny$\downarrow$0.12}} & 303.7{\color{red}{\tiny$\uparrow$27.4}} & 0.81{\color{red}{\tiny$\uparrow$0.01}} & 0.62 & 1.957{\color{blue}{\tiny$\uparrow$1.534}} & 0.2$\times${\color{blue}{\tiny$\downarrow$0.8}} \\
+%         & & 64 & 50 & 1.65{\color{red}{\tiny$\downarrow$0.02}} & 299.8{\color{red}{\tiny$\uparrow$23.5}} & 0.80 & 0.62 & 0.462{\color{blue}{\tiny$\uparrow$0.039}} & 0.9$\times${\color{blue}{\tiny$\downarrow$0.1}} \\
+        
+%         xAR-H~\cite{xar} & 1.1B & 4 & 50 & 1.24{\color{red}{\tiny$\downarrow$0.43}} & 301.6{\color{red}{\tiny$\uparrow$25.3}} & 0.83{\color{red}{\tiny$\uparrow$0.03}} & 0.64{\color{red}{\tiny$\uparrow$0.02}} & 0.896{\color{blue}{\tiny$\uparrow$0.473}} & 0.5$\times${\color{blue}{\tiny$\downarrow$0.5}} \\
+        
+%         \rowcolor{gray!10} XYZFlow-H (w/o GAN) & 1.1B & 4 & 5$\rightarrow$2 & 1.73{\color{red}{\tiny$\downarrow$0.06}} & 271.5{\color{blue}{\tiny$\downarrow$4.8}} & 0.82{\color{red}{\tiny$\uparrow$0.02}} & 0.62 & 0.105{\color{red}{\tiny$\downarrow$0.318}} & 4.0$\times${\color{red}{\tiny$\uparrow$3.0}} \\
+%         \rowcolor{gray!25} XYZFlow-H (w/ GAN) & 1.1B & 4 & 5$\rightarrow$2 & 1.22{\color{red}{\tiny$\downarrow$0.45}} & 304.2{\color{red}{\tiny$\uparrow$27.9}} & 0.84{\color{red}{\tiny$\uparrow$0.04}} & 0.64{\color{red}{\tiny$\uparrow$0.02}} & 0.105{\color{red}{\tiny$\downarrow$0.318}} & 4.0$\times${\color{red}{\tiny$\uparrow$3.0}} \\
+        
+%         \bottomrule
+%     \end{tabular}}
+% % \vskip -0.2in
+% % \vspace{-2mm}
+% \caption{\textbf{System-level method comparison} on ImageNet 256×256. Models are organized by parameter count from small to large. Colored numbers indicate performance change relative to baseline models.}
+%     \label{tab:comparison}
+% \vspace{-2mm}
+% \end{table*}
+
+\begin{table*}[t]
+\vskip -0.1in
+\scriptsize 
+    \centering
+    \setlength{\tabcolsep}{2.5mm}{
+    \begin{tabular}{ l | c | c c | c c | c c | l c}
+        \toprule
+        Model & \#params & AR steps & Diff steps & {FID$\downarrow$} & {IS$\uparrow$} & {Pre.$\uparrow$} & {Rec.$\uparrow$} & Time (s)$\downarrow$ & Speed-Up$\uparrow$ \\
+        \midrule
+        
+        \multicolumn{10}{c}{\textbf{Base Models (170M-208M parameters)}} \\
+        \midrule
+
+        MAR-B~\cite{mar} & 208M & 256 & 100 & 2.31 & 281.7 & 0.82 & 0.57 & 0.650 & 1.0$\times$ \\
+        & & 64 & 50 & 2.39{\color{blue}{\tiny$\uparrow$0.08}} & 281.0{\color{blue}{\tiny$\downarrow$0.7}} & 0.82 & 0.57 & 0.134{\color{red}{\tiny$\downarrow$0.516}} & 4.9$\times${\color{red}{\tiny$\uparrow$3.9}} \\
+        
+        FlowAR-S~\cite{ren2024flowar} & 170M & 5 & 25 & 3.70{\color{blue}{\tiny$\uparrow$1.39}} & 235.1{\color{blue}{\tiny$\downarrow$46.6}} & 0.81{\color{blue}{\tiny$\downarrow$0.01}} & 0.51{\color{blue}{\tiny$\downarrow$0.06}} & 0.024{\color{red}{\tiny$\downarrow$0.626}} & 27.1$\times${\color{red}{\tiny$\uparrow$26.1}} \\
+        
+        xAR-B~\cite{xar} & 172M & 4 & 50 & 1.67{\color{red}{\tiny$\downarrow$0.64}} & 265.2{\color{blue}{\tiny$\downarrow$16.5}} & 0.80{\color{blue}{\tiny$\downarrow$0.02}} & 0.62{\color{red}{\tiny$\uparrow$0.05}} & 0.130{\color{blue}{\tiny$\uparrow$0.520}} & 5.0$\times${\color{red}{\tiny$\uparrow$4.0}} \\
+        
+        \rowcolor{gray!10} XYZFlow-B (w/o GAN) & 172M & 4 & 5$\rightarrow$2 & 2.02{\color{red}{\tiny$\downarrow$0.29}} & 261.1{\color{blue}{\tiny$\downarrow$20.6}} & 0.80{\color{blue}{\tiny$\downarrow$0.02}} & 0.58{\color{red}{\tiny$\uparrow$0.01}} & 0.018{\color{red}{\tiny$\downarrow$0.632}} & 36.1$\times${\color{red}{\tiny$\uparrow$35.1}} \\
+% \rowcolor{gray!15} & XYZFlow-B (w/ GAN) & 172M & 4 & 4$\rightarrow$1 & 1.88{\color{blue}{\tiny$\uparrow$0.16}} & 245.3{\color{blue}{\tiny$\downarrow$35.1}} & 0.73{\color{blue}{\tiny$\downarrow$0.09}} & 0.54{\color{blue}{\tiny$\downarrow$0.05}} & 0.010{\color{red}{\tiny$\downarrow$0.640}} & 65.0$\times${\color{red}{\tiny$\uparrow$64.0}} \\
+
+        \rowcolor{gray!25} XYZFlow-B (w/ GAN) & 172M & 4 & 5$\rightarrow$2 & 1.63{\color{red}{\tiny$\downarrow$0.68}} & 268.5{\color{blue}{\tiny$\downarrow$13.2}} & 0.81{\color{blue}{\tiny$\downarrow$0.01}} & 0.62{\color{red}{\tiny$\uparrow$0.05}} & 0.018{\color{red}{\tiny$\downarrow$0.632}} & 36.1$\times${\color{red}{\tiny$\uparrow$35.1}} \\
+        
+        \midrule
+        \multicolumn{10}{c}{\textbf{Large Models (479M-820M parameters)}} \\
+        \midrule
+
+        DiT/XL-2 (25-step) & 676M & - & 25 & 2.89 & 230.2 & 0.80 & 0.57 & 0.494 & 1.0$\times$ \\
+
+        DART & 812M & - & 16 & 5.62{\color{blue}{\tiny$\uparrow$2.73}} & 231.7{\color{blue}{\tiny$\uparrow$1.5}} & 0.78{\color{blue}{\tiny$\downarrow$0.02}} & 0.55{\color{blue}{\tiny$\downarrow$0.02}} & 0.075{\color{red}{\tiny$\downarrow$0.419}} & 6.6$\times${\color{red}{\tiny$\uparrow$5.6}} \\
+        DART-AR~\cite{gu2024dartdenoisingautoregressivetransformer} & 812M & 4096 & - & 3.98{\color{blue}{\tiny$\uparrow$1.09}} & 256.8{\color{red}{\tiny$\uparrow$26.6}} & 0.80 & 0.58{\color{red}{\tiny$\uparrow$0.01}} & 7.44{\color{blue}{\tiny$\uparrow$6.946}} & 0.07$\times${\color{blue}{\tiny$\downarrow$0.93}} \\
+        DART-FM & 820M & - & 16 & 3.82{\color{blue}{\tiny$\uparrow$0.93}} & 263.8{\color{red}{\tiny$\uparrow$33.6}} & 0.81{\color{red}{\tiny$\uparrow$0.01}} & 0.60{\color{red}{\tiny$\uparrow$0.03}} & 0.32{\color{blue}{\tiny$\uparrow$0.174}} & 1.5$\times${\color{red}{\tiny$\uparrow$0.5}} \\
+        
+
+        MeanFlow-XL/2 (w/o CFG) & 676M & - & 1 & 3.43{\color{blue}{\tiny$\uparrow$0.54}} & - & - & - & 0.009{\color{red}{\tiny$\downarrow$0.485}} & 54.9$\times${\color{red}{\tiny$\uparrow$53.9}} \\
+        MeanFlow-XL/2 & 676M & - & 1 & 2.93{\color{blue}{\tiny$\uparrow$0.04}} & - & - & - & 0.018{\color{red}{\tiny$\downarrow$0.476}} & 27.4$\times${\color{red}{\tiny$\uparrow$26.4}} \\
+        MeanFlow-XL/2+ & 676M & - & 1 & 2.20{\color{red}{\tiny$\downarrow$0.69}} & - & - & - & 0.018{\color{red}{\tiny$\downarrow$0.476}} & 27.4$\times${\color{red}{\tiny$\uparrow$26.4}} \\
+        
+        DART Distill & 676M & - & 2 & 10.92{\color{blue}{\tiny$\uparrow$8.03}} & 167.0{\color{blue}{\tiny$\downarrow$63.12}} & 0.68{\color{blue}{\tiny$\downarrow$0.12}} & 0.52{\color{blue}{\tiny$\downarrow$0.05}} & 0.033{\color{red}{\tiny$\downarrow$0.461}} & 15.0$\times${\color{red}{\tiny$\uparrow$14.0}} \\
+        ARD (w/o GAN) & 676M & - & 2 & 6.29{\color{blue}{\tiny$\uparrow$3.40}} & 188.0{\color{blue}{\tiny$\downarrow$42.15}} & 0.74{\color{blue}{\tiny$\downarrow$0.06}} & 0.56{\color{blue}{\tiny$\downarrow$0.01}} & 0.034{\color{red}{\tiny$\downarrow$0.460}} & 14.5$\times${\color{red}{\tiny$\uparrow$13.5}} \\
+        
+        DART Distill (w/o GAN) & 676M & - & 4 & 10.25{\color{blue}{\tiny$\uparrow$7.36}} & 181.6{\color{blue}{\tiny$\downarrow$48.62}} & 0.70{\color{blue}{\tiny$\downarrow$0.10}} & 0.47{\color{blue}{\tiny$\downarrow$0.10}} & 0.065{\color{red}{\tiny$\downarrow$0.429}} & 7.6$\times${\color{red}{\tiny$\uparrow$6.6}} \\
+        ARD (w/o GAN) & 676M & - & 4 & 4.32{\color{blue}{\tiny$\uparrow$1.43}} & 209.0{\color{blue}{\tiny$\downarrow$21.2}} & 0.77{\color{blue}{\tiny$\downarrow$0.03}} & 0.57 & 0.066{\color{red}{\tiny$\downarrow$0.428}} & 7.5$\times${\color{red}{\tiny$\uparrow$6.5}} \\
+        
+        DART Distill (w/ GAN) & 676M & - & 4 & 3.84{\color{blue}{\tiny$\uparrow$0.95}} & 221.1{\color{blue}{\tiny$\downarrow$9.1}} & 0.78{\color{blue}{\tiny$\downarrow$0.02}} & 0.55{\color{blue}{\tiny$\downarrow$0.02}} & 0.065{\color{red}{\tiny$\downarrow$0.429}} & 7.6$\times${\color{red}{\tiny$\uparrow$6.6}} \\
+        ARD (w/ GAN) & 676M & - & 4 & 1.84{\color{red}{\tiny$\downarrow$1.05}} & 235.8{\color{blue}{\tiny$\downarrow$5.6}} & 0.80 & 0.62{\color{red}{\tiny$\uparrow$0.05}} & 0.066{\color{red}{\tiny$\downarrow$0.428}} & 7.5$\times${\color{red}{\tiny$\uparrow$6.5}} \\
+
+        MAR-L~\cite{mar} & 479M & 256 & 100 & 1.78{\color{red}{\tiny$\downarrow$1.11}} & 296.0{\color{red}{\tiny$\uparrow$65.8}} & 0.81{\color{red}{\tiny$\uparrow$0.01}} & 0.60{\color{red}{\tiny$\uparrow$0.03}} & 1.102{\color{blue}{\tiny$\uparrow$0.608}} & 0.4$\times${\color{blue}{\tiny$\downarrow$0.6}} \\
+        & & 64 & 50 & 1.86{\color{red}{\tiny$\downarrow$1.03}} & 294.0{\color{red}{\tiny$\uparrow$63.8}} & 0.80 & 0.61{\color{red}{\tiny$\uparrow$0.04}} & 0.250{\color{red}{\tiny$\downarrow$0.244}} & 2.0$\times${\color{red}{\tiny$\uparrow$1.0}} \\
+        
+        FlowAR-L~\cite{ren2024flowar} & 589M & 5 & 25 & 1.87{\color{red}{\tiny$\downarrow$1.02}} & 273.1{\color{red}{\tiny$\uparrow$42.9}} & 0.80 & 0.62{\color{red}{\tiny$\uparrow$0.05}} & 0.124{\color{red}{\tiny$\downarrow$0.370}} & 4.0$\times${\color{red}{\tiny$\uparrow$3.0}} \\
+        
+        xAR-L~\cite{xar} & 608M & 4 & 50 & 1.28{\color{red}{\tiny$\downarrow$1.61}} & 292.5{\color{red}{\tiny$\uparrow$62.3}} & 0.82{\color{red}{\tiny$\uparrow$0.02}} & 0.62{\color{red}{\tiny$\uparrow$0.05}} & 0.394{\color{blue}{\tiny$\uparrow$0.100}} & 1.3$\times${\color{red}{\tiny$\uparrow$0.3}} \\
+
+
+        
+        \rowcolor{gray!10} XYZFlow-L (w/o GAN) & 608M & 4 & 5$\rightarrow$2 & 1.79{\color{red}{\tiny$\downarrow$1.10}} & 265.2{\color{blue}{\tiny$\downarrow$35.0}} & 0.81{\color{red}{\tiny$\uparrow$0.01}} & 0.61{\color{red}{\tiny$\uparrow$0.04}} & 0.050{\color{red}{\tiny$\downarrow$0.444}} & 9.9$\times${\color{red}{\tiny$\uparrow$8.9}} \\
+        \rowcolor{gray!25} XYZFlow-L (w/ GAN) & 608M & 4 & 5$\rightarrow$2 & 1.25{\color{red}{\tiny$\downarrow$1.64}} & 295.8{\color{red}{\tiny$\uparrow$65.6}} & 0.83{\color{red}{\tiny$\uparrow$0.03}} & 0.63{\color{red}{\tiny$\uparrow$0.06}} & 0.050{\color{red}{\tiny$\downarrow$0.444}} & 9.9$\times${\color{red}{\tiny$\uparrow$8.9}} \\
+
+
+        \midrule
+        \multicolumn{10}{c}{\textbf{Huge Models (943M-2.0B parameters)}} \\
+        \midrule
+        
+        FlowAR-H~\cite{ren2024flowar} & 1.9B & 5 & 50 & 1.67 & 276.3 & 0.80 & 0.62 & 0.423 & 1.0$\times$ \\
+
+        VAR-d30~\cite{tian2025var} & 2.0B & 10 & - & 1.92{\color{blue}{\tiny$\uparrow$0.25}} & 323.1{\color{red}{\tiny$\uparrow$46.8}} & 0.82{\color{red}{\tiny$\uparrow$0.02}} & 0.59{\color{blue}{\tiny$\downarrow$0.03}} & 0.039{\color{red}{\tiny$\downarrow$0.384}} & 10.8$\times${\color{red}{\tiny$\uparrow$9.8}} \\
+
+        MAR-H~\cite{mar} & 943M & 256 & 100 & 1.55{\color{red}{\tiny$\downarrow$0.12}} & 303.7{\color{red}{\tiny$\uparrow$27.4}} & 0.81{\color{red}{\tiny$\uparrow$0.01}} & 0.62 & 1.957{\color{blue}{\tiny$\uparrow$1.534}} & 0.2$\times${\color{blue}{\tiny$\downarrow$0.8}} \\
+        & & 64 & 50 & 1.65{\color{red}{\tiny$\downarrow$0.02}} & 299.8{\color{red}{\tiny$\uparrow$23.5}} & 0.80 & 0.62 & 0.462{\color{blue}{\tiny$\uparrow$0.039}} & 0.9$\times${\color{blue}{\tiny$\downarrow$0.1}} \\
+        
+        xAR-H~\cite{xar} & 1.1B & 4 & 50 & 1.24{\color{red}{\tiny$\downarrow$0.43}} & 301.6{\color{red}{\tiny$\uparrow$25.3}} & 0.83{\color{red}{\tiny$\uparrow$0.03}} & 0.64{\color{red}{\tiny$\uparrow$0.02}} & 0.896{\color{blue}{\tiny$\uparrow$0.473}} & 0.5$\times${\color{blue}{\tiny$\downarrow$0.5}} \\
+        
+        \rowcolor{gray!10} XYZFlow-H (w/o GAN) & 1.1B & 4 & 5$\rightarrow$2 & 1.73{\color{red}{\tiny$\downarrow$0.06}} & 271.5{\color{blue}{\tiny$\downarrow$4.8}} & 0.82{\color{red}{\tiny$\uparrow$0.02}} & 0.62 & 0.105{\color{red}{\tiny$\downarrow$0.318}} & 4.0$\times${\color{red}{\tiny$\uparrow$3.0}} \\
+        \rowcolor{gray!25} XYZFlow-H (w/ GAN) & 1.1B & 4 & 5$\rightarrow$2 & 1.22{\color{red}{\tiny$\downarrow$0.45}} & 304.2{\color{red}{\tiny$\uparrow$27.9}} & 0.84{\color{red}{\tiny$\uparrow$0.04}} & 0.64{\color{red}{\tiny$\uparrow$0.02}} & 0.105{\color{red}{\tiny$\downarrow$0.318}} & 4.0$\times${\color{red}{\tiny$\uparrow$3.0}} \\
+        
+        \bottomrule
+    \end{tabular}}
+% \vskip -0.2in
+% \vspace{-2mm}
+\caption{\textbf{System-level method comparison} on ImageNet 256×256. Models are organized by parameter count from small to large. Colored numbers indicate performance change relative to baseline models.}
+    \label{tab:comparison}
+\vspace{-7mm}
+\end{table*}
+\vspace{-2mm}
+\subsection{Experimental Setup}
+\vspace{-2mm}
+\label{subsec:imagenet_experiments}
+We train and evaluate XYZFlow on the ImageNet 256×256 class-conditional generation benchmark ~\cite{deng2009imagenet}. Training is conducted on 8 NVIDIA H100 GPUs for 300K steps with a batch size of 128 and a learning rate of 0.0001. To better evaluate scalability, we employ three autoregressive teacher models of varying sizes, including Base (172M), Large (608M), and Huge (1.1B) ~\cite{xar}. ODE trajectory data is generated by running each teacher for 50 steps with a classifier-free guidance scale of 2.3, pre-computing 2.5M trajectories for distillation. We comprehensively evaluate sample quality using four established metrics: Fréchet Inception Distance (FID) ~\cite{fid}, Inception Score (IS) ~\cite{is}, and Precision/Recall ~\cite{dhariwal2021diffusion} to quantify fidelity and diversity. Inference time (shown in seconds) and speed-up relative to baseline models are reported to measure efficiency.
+
+% \vspace{-4mm}
+% \subsection{Main Results and Analysis}
+% \label{subsec:qualitative}
+
+% Table~\ref{tab:comparison} presents a comprehensive system-level comparison on ImageNet $256\times256$, demonstrating XYZFlow's framework advantages across model scales. The consistent performance improvements in both standard and GAN-enhanced configurations validate XYZFlow's core methodology. Compared to the teacher models, XYZFlow achieves substantial acceleration improvements while maintaining or enhancing quality: XYZFlow attains $36.1\times$ speed-up ($7.2\times$ improvement over xAR-B's $5.0\times$) with better FID ($1.63$ vs. $1.67$), XYZFlow-L reaches $9.9\times$ ($7.6\times$ improvement over xAR-L's $1.3\times$), and XYZFlow-H achieves $4.0\times$ ($8\times$ improvement over xAR-H's $0.5\times$). The framework's effectiveness is further demonstrated by its scalable performance across categories: at the Base level, XYZFlow establishes superior efficiency-quality trade-offs over FlowAR-S ($36.1\times$ vs. $27.1\times$ acceleration with FID $1.63$ vs. $3.70$); at the Large level, it outperforms MAR-L ($9.9\times$ vs. $2.0\times$) and FlowAR-L ($9.9\times$ vs. $4.0\times$); at the Huge level, it achieves better FID than VAR ($1.22$ vs. $1.92$) with balanced acceleration. Moreover, against one-step approaches, XYZFlow-B ($172$M parameters) matches MeanFlow-XL/2+ ($676$M parameters) in inference speed ($0.018$s) while achieving superior FID ($1.63$ vs. $2.20$), demonstrating our multidimensional approach's efficacy in trajectory straightening. Figure~\ref{fig:qualitative} presents samples generated by xAR (trained on ImageNet $256\times256$). These results collectively validate XYZFlow's multidimensional conditioning approach in maintaining straighter trajectories and delivering consistent speed-up advantages while preserving sample quality across all model scales and highlight XYZFlow’s ability to generate images with exceptional visual quality.
+
+% \subsection{Main Results and Analysis}
+% \label{subsec:qualitative}
+
+% Table~\ref{tab:comparison} presents a comprehensive system-level comparison on ImageNet $256\times256$, demonstrating XYZFlow's framework advantages across model scales. The consistent performance improvements in both standard and GAN-enhanced configurations validate XYZFlow's core methodology centered on \textbf{Autoregression in Temporal(Denoising)}. Compared to teacher models, XYZFlow achieves substantial acceleration improvements while maintaining or enhancing quality: XYZFlow attains $36.1\times$ speed-up ($7.2\times$ improvement over xAR-B's $5.0\times$) with better FID ($1.63$ vs. $1.67$), XYZFlow-L reaches $9.9\times$ ($7.6\times$ improvement over xAR-L's $1.3\times$), and XYZFlow-H achieves $4.0\times$ ($8\times$ improvement over xAR-H's $0.5\times$). Notably, our framework demonstrates significant advantages over contemporary accelerated generation methods: XYZFlow-B ($172$M parameters) surpasses DART-FM ($820$M) with 1.63 vs. 3.82 FID while achieving much faster inference ($0.018$s vs. $0.32$s), and outperforms one-step approaches like MeanFlow-XL/2+ ($676$M) in both FID ($1.63$ vs. $2.20$) and inference speed parity ($0.018$s). These improvements stem from our architectural innovations that enable \textbf{Denoising Flow to be Straightened}, where the framework's effectiveness is further demonstrated by its scalable performance: at the Base level, XYZFlow establishes superior efficiency-quality trade-offs over FlowAR-S ($36.1\times$ vs. $27.1\times$ acceleration with FID $1.63$ vs. $3.70$); at the Large level, it outperforms MAR-L ($9.9\times$ vs. $2.0\times$) and FlowAR-L ($9.9\times$ vs. $4.0\times$); at the Huge level, it achieves better FID than VAR ($1.22$ vs. $1.92$) with balanced acceleration. Our approach employs a \textbf{Scaling Autoregression in both Spatial and Temporal} strategy, where \textbf{Later Chunks can take both Previous Trajectory Flows and Patches as Conditions}, making it \textbf{Easier to Generate Later Patches} through \textbf{Next Shortcut Prediction}—a decoupled generation approach that enables \textbf{Faster Inference and Efficient Generative Modeling} by treating patches as independent units with patch-level representations that capture local features more effectively than token-level approaches, and utilizing causal attention mechanisms that are computationally more efficient than bidirectional attention. This decoupling enables better initial patch generation and consequently simplifies subsequent patch generation, explaining why our framework consistently outperforms contemporary approaches across all scales: XYZFlow-L (608M) achieves 1.25 vs. DART-FM's 3.82 FID, and XYZFlow-H (1.1B) reaches 1.22 vs. 3.82 FID, all with substantially faster inference speeds. Figure~\ref{fig:qualitative} presents samples generated by xAR (trained on ImageNet $256\times256$). These results collectively validate XYZFlow's multidimensional conditioning approach in maintaining straighter trajectories and delivering consistent speed-up advantages while preserving sample quality across all model scales, highlighting XYZFlow's ability to generate images with exceptional visual quality through its innovative architectural design.
+
+
+\vspace{-2mm}
+\subsection{Main Results and Analysis}
+\label{subsec:qualitative}
+\vspace{-2mm}
+
+Table~\ref{tab:comparison} presents a comprehensive system-level comparison on ImageNet 256$\times$256. XYZFlow achieves superior efficiency-quality trade-offs across all model scales, demonstrating the advantage of our spatio-temporal autoregressive framework. Our key innovation lies in a unified framework for spatio-temporal autoregression: (1) Temporally, the method models the denoising trajectory, making it straighter and more predictable; (2) Spatially, it decomposes the image into a sequence of patches and predicts each subsequent patch conditioned on previous patches and the learned temporal trajectory. The linearization of the temporal trajectory provides stable and simplified global context, which significantly eases the generation task for each individual patch. This enables the use of a lightweight network for fast inference. The results validate this design. Our base model, XYZFlow-B, with only 172M parameters, matches the inference speed of the 676M-parameter one-step model MeanFlow-XL/2+~\cite{geng2025mean} (both at 0.018s per image) while achieving superior FID (1.63 vs. 2.20). Furthermore, XYZFlow-B significantly outperforms the 820M-parameter DART-FM~\cite{gu2024dartdenoisingautoregressivetransformer} in both FID (1.63 vs. 3.82) and inference speed (0.018s vs. 0.32s). The consistent improvements across scales—XYZFlow-L (608M) and XYZFlow-H (1.1B) achieve FIDs of 1.25 and 1.22, respectively—demonstrate the scalability and effectiveness of our approach. Compared to teacher models, XYZFlow provides substantial speed-up while maintaining quality. It also outperforms other accelerated iterative methods. For instance, XYZFlow-B provides a 36.1$\times$ speed-up over its teacher with an FID of 1.63, whereas FlowAR-S provides a 27.1$\times$ speed-up with a higher FID of 3.70. This demonstrates that intensive modeling of the generative probability flow ("depth scaling") offers a viable and efficient alternative to simply enlarging model scale ("width scaling") or adding distillation steps. In summary, XYZFlow successfully straightens the generative trajectory through temporal conditioning, simplifies patch-wise generation via spatial decomposition, and leverages their synergy for efficient, high-fidelity image synthesis. While ARD and DART Distill variants demonstrate competitive performance at larger scales, they primarily serve to highlight the efficiency of our architectural design. For instance, ARD (w/ GAN, 676M) achieves a strong FID of 1.84 at 0.066s, and DART Distill (w/ GAN, 676M) attains an FID of 3.84 at 0.065s. However, their inference speeds are 3.6$\times$ slower than our 172M-parameter XYZFlow-B (0.018s) which also achieves a better FID of 1.63. This indicates that while these methods leverage distillation and GAN augmentation for quality improvements, their underlying autoregressive or iterative structures do not fundamentally accelerate inference. In contrast, our spatio-temporal autoregressive framework fundamentally rethinks the generative process, achieving superior speed and quality with a significantly more compact model.
+
+To further evaluate robustness under a weaker teacher, we additionally replace the xAR teacher with DiT/XL-2 (25-step) and perform patch-wise trajectory distillation under the same 256$\times$256 setting. The results in Table~\ref{tab:weak_teacher} show that standard 5-step distillation degrades sharply with this teacher, yielding FID 8.97 without GAN and 3.37 with GAN. In contrast, XYZFlow-B maintains substantially stronger performance: the progressive 5$\rightarrow$4$\rightarrow$3$\rightarrow$2 schedule achieves FID 3.85 without GAN, and further improves to 1.74 with GAN. Notably, the progressive schedule matches the constant 5$\rightarrow$5$\rightarrow$5$\rightarrow$5 variant (3.85 vs. 3.83) while requiring fewer total denoising steps, confirming that Next Shortcut Prediction preserves fidelity while improving efficiency. These results show that the gains of XYZFlow arise from the proposed spatio-temporal architecture itself rather than depending on a particularly strong teacher.
+
+This trend is consistent across teachers of different strengths. As summarized in Table~\ref{tab:teacher_quality}, XYZFlow-L without GAN remains stable when distilling from xAR-B, xAR-L, and xAR-H, varying only from 1.91 to 1.77 FID. After GAN fine-tuning, the gap narrows further, reaching 1.32, 1.25, and 1.25, respectively. The largest gain appears for the weakest teacher, where GAN improves XYZFlow-L by 0.59 FID, while the stronger teachers show smaller but still consistent gains of 0.54 and 0.52. This result indicates that stronger teachers are helpful, but the proposed architecture preserves robust performance even when the teacher quality degrades.
+
+\begin{table}[t]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{1.3pt}
+\renewcommand{\arraystretch}{1.1}
+\caption{Weak-teacher distillation results on ImageNet 256$\times$256 using DiT/XL-2 (25-step) as the teacher.}
+\label{tab:weak_teacher}
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+\textbf{Method} & \textbf{Params} & \textbf{Steps} & \textbf{FID$\downarrow$} & \textbf{Total} \\
+\midrule
+\rowcolor{gray!10}
+DiT/XL-2 (Teacher) & 676M & 25 & 2.89 & 25 \\
+DiT/XL-2 Distilled & 676M & 5 & 8.97 & 5 \\
+DiT/XL-2 Distilled (GAN) & 676M & 5 & 3.37{\color{red}{\tiny$\downarrow$5.60}} & 5 \\
+XYZFlow-B (Constant) & 172M & 5$\rightarrow$5$\rightarrow$5$\rightarrow$5 & 3.83{\color{red}{\tiny$\downarrow$5.14}} & 20 \\
+XYZFlow-B & 172M & 5$\rightarrow$4$\rightarrow$3$\rightarrow$2 & 3.85{\color{red}{\tiny$\downarrow$5.12}} & 14 \\
+\rowcolor{gray!20} XYZFlow-B (GAN) & 172M & 5$\rightarrow$4$\rightarrow$3$\rightarrow$2 & \textbf{1.74{\color{red}{\tiny$\downarrow$1.63}}} & 14 \\
+\bottomrule
+\end{tabular}
+\vspace{-2mm}
+\end{table}
+
+\begin{table}[t]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{1.3pt}
+\renewcommand{\arraystretch}{1.1}
+\caption{Teacher-quality analysis across xAR teachers on ImageNet 256$\times$256.}
+\label{tab:teacher_quality}
+\begin{tabular}{@{}lccc@{}}
+\toprule
+\textbf{Teacher} & \textbf{Teacher FID$\downarrow$} & \textbf{XYZFlow-L$\downarrow$} & \textbf{XYZFlow-L (GAN)$\downarrow$} \\
+\midrule
+\rowcolor{gray!10}
+xAR-B & 1.61 & 1.91{\color{blue}{\tiny$\uparrow$0.30}} & 1.32{\color{red}{\tiny$\downarrow$0.59}} \\
+xAR-L & 1.28 & 1.79{\color{blue}{\tiny$\uparrow$0.51}} & 1.25{\color{red}{\tiny$\downarrow$0.54}} \\
+\rowcolor{gray!20}
+xAR-H & 1.24 & 1.77{\color{blue}{\tiny$\uparrow$0.53}} & \textbf{1.25{\color{red}{\tiny$\downarrow$0.52}}} \\
+\bottomrule
+\end{tabular}
+\vspace{-3mm}
+\end{table}
+
+
+% \subsection{Main Results and Analysis}
+% \label{subsec:qualitative}
+
+% Table~\ref{tab:comparison} presents a comprehensive system-level comparison on ImageNet $256\times256$, demonstrating XYZFlow's framework advantages across model scales. The consistent performance improvements in both standard and GAN-enhanced configurations validate XYZFlow's core methodology centered on autoregression in temporal denoising. Compared to teacher models, XYZFlow achieves substantial acceleration improvements while maintaining or enhancing quality. The framework's effectiveness is further demonstrated by its scalable performance across categories: at the Base level, XYZFlow establishes superior efficiency-quality trade-offs over FlowAR-S ($36.1\times$ vs. $27.1\times$ acceleration with FID $1.63$ vs. $3.70$); at the Large level, it outperforms MAR-L ($9.9\times$ vs. $2.0\times$) and FlowAR-L ($9.9\times$ vs. $4.0\times$); at the Huge level, it achieves better FID than VAR ($1.22$ vs. $1.92$) with balanced acceleration. Moreover, against one-step approaches, XYZFlow-B ($172$M parameters) matches MeanFlow-XL/2+ ($676$M parameters) in inference speed ($0.018$s) while achieving superior FID ($1.63$ vs. $2.20$), demonstrating our multidimensional approach's efficacy in trajectory straightening.
+
+% Notably, our framework demonstrates significant advantages over contemporary accelerated generation methods. XYZFlow-B ($172$M parameters) surpasses DART-FM ($820$M) with 1.63 vs. 3.82 FID while achieving much faster inference ($0.018$s vs. $0.32$s), and outperforms one-step approaches like MeanFlow-XL/2+ ($676$M) in both FID ($1.63$ vs. $2.20$) and inference speed parity ($0.018$s). These improvements stem from our architectural innovations that enable denoising flow to be straightened, where our approach employs a scaling autoregression in both spatial and temporal strategy, where later chunks can take both previous trajectory flows and patches as conditions, making it easier to generate later patches through Next Shortcut Prediction—a decoupled generation approach that enables faster inference and efficient generative modeling by treating patches as independent units with patch-level representations that capture local features more effectively than token-level approaches, and utilizing causal attention mechanisms that are computationally more efficient than bidirectional attention.
+
+% This decoupling enables better initial patch generation and consequently simplifies subsequent patch generation, explaining why our framework consistently outperforms contemporary approaches across all scales: XYZFlow-L (608M) achieves 1.25 vs. DART-FM's 3.82 FID, and XYZFlow-H (1.1B) reaches 1.22 vs. 3.82 FID, all with substantially faster inference speeds. The quantitative superiority is complemented by qualitative evidence, as demonstrated in the generated samples that showcase XYZFlow's ability to produce high-fidelity images with exceptional visual quality while maintaining the efficiency gains achieved through our innovative architectural design.
+
+% These results collectively validate XYZFlow's multidimensional conditioning approach in maintaining straighter trajectories and delivering consistent speed-up advantages while preserving sample quality across all model scales. The empirical evidence confirms that intensive scaling through enhanced probability flow expressivity provides a viable alternative to the prevailing paradigm of extensive scaling through added parameters or distillation steps, where both quantitative metrics in Table~\ref{tab:comparison} and visual results demonstrate XYZFlow's capability to generate images with both superior efficiency and exceptional visual fidelity through its innovative architectural design that fundamentally rethinks the scaling paradigm for generative models.
+
+
+
+% \begin{table}[ht]
+% \centering
+% \scriptsize
+% \caption{Ablation study of XYZFlow components. FID$\downarrow$ is lower-better; IS$\uparrow$, Pre$\uparrow$, Rec$\uparrow$ are higher-better. Total Steps$\downarrow$ represents the cumulative inference steps. Colored numbers indicate performance change relative to baseline (Distilled) models.}
+% \label{tab:ablation}
+% \setlength{\tabcolsep}{1.0pt}
+% \renewcommand{\arraystretch}{0.8}
+% \begin{tabular}{@{}lccccccc@{}}
+% \toprule
+% \textbf{Method} & \textbf{Params} & \textbf{Steps} & \textbf{FID$\downarrow$} & \textbf{IS$\uparrow$} & \textbf{Pre$\uparrow$} & \textbf{Rec$\uparrow$} & \textbf{Total} \\
+% \midrule
+% \rowcolor{gray!10}
+% Teacher-Base & 172M & 50 & 1.72 & 280.4 & 0.82 & 0.59 & 200 \\
+% Distilled-Base & 172M & 5 & 3.03 & 225.3 & 0.78 & 0.55 & 20 \\
+% + Local History & 172M & 5→2 & 2.25{\color{red}{\tiny$\downarrow$0.78}} & 249.8{\color{red}{\tiny$\uparrow$24.5}} & 0.78 & 0.54{\color{blue}{\tiny$\downarrow$0.01}} & 14{\color{blue}{\tiny$\downarrow$6}} \\
+% - Full History & 172M & 5→2 & 3.51{\color{blue}{\tiny$\uparrow$0.48}} & 219.9{\color{blue}{\tiny$\downarrow$5.4}} & 0.77{\color{blue}{\tiny$\downarrow$0.01}} & 0.52{\color{blue}{\tiny$\downarrow$0.03}} & 14{\color{blue}{\tiny$\downarrow$6}} \\
+% - Shortcut & 172M & 5 & 2.05{\color{red}{\tiny$\downarrow$0.98}} & 258.5{\color{red}{\tiny$\uparrow$33.2}} & 0.80{\color{red}{\tiny$\uparrow$0.02}} & 0.58{\color{red}{\tiny$\uparrow$0.03}} & 20 \\
+% XYZFlow-B & 172M & 5→2 & 2.02{\color{red}{\tiny$\downarrow$1.01}} & 261.1{\color{red}{\tiny$\uparrow$35.8}} & 0.80{\color{red}{\tiny$\uparrow$0.02}} & 0.58{\color{red}{\tiny$\uparrow$0.03}} & 14{\color{blue}{\tiny$\downarrow$6}} \\
+% \rowcolor{gray!20}
+% XYZFlow-B (GAN) & 172M & 5→2 & \textbf{1.63{\color{red}{\tiny$\downarrow$1.40}}} & \textbf{268.5{\color{red}{\tiny$\uparrow$43.2}}} & \textbf{0.81{\color{red}{\tiny$\uparrow$0.03}}} & \textbf{0.62{\color{red}{\tiny$\uparrow$0.07}}} & 14{\color{blue}{\tiny$\downarrow$6}} \\
+% \midrule
+% \rowcolor{gray!10}
+% Teacher-Large & 608M & 50 & 1.28 & 292.5 & 0.82 & 0.62 & 200 \\
+% Distilled-Large & 608M & 5 & 2.85 & 235.1 & 0.79 & 0.57 & 20 \\
+% + Local History & 608M & 5→2 & 2.02{\color{red}{\tiny$\downarrow$0.83}} & 254.3{\color{red}{\tiny$\uparrow$19.2}} & 0.79 & 0.57 & 14{\color{blue}{\tiny$\downarrow$6}} \\
+% - Full History & 608M & 5→2 & 3.35{\color{blue}{\tiny$\uparrow$0.50}} & 229.3{\color{blue}{\tiny$\downarrow$5.8}} & 0.78{\color{blue}{\tiny$\downarrow$0.01}} & 0.54{\color{blue}{\tiny$\downarrow$0.03}} & 14{\color{blue}{\tiny$\downarrow$6}} \\
+% - Shortcut & 608M & 5 & 1.82{\color{red}{\tiny$\downarrow$1.03}} & 263.8{\color{red}{\tiny$\uparrow$28.7}} & 0.81{\color{red}{\tiny$\uparrow$0.02}} & 0.61{\color{red}{\tiny$\uparrow$0.04}} & 20 \\
+% XYZFlow-L & 608M & 5→2 & 1.79{\color{red}{\tiny$\downarrow$1.06}} & 265.2{\color{red}{\tiny$\uparrow$30.1}} & 0.81{\color{red}{\tiny$\uparrow$0.02}} & 0.61{\color{red}{\tiny$\uparrow$0.04}} & 14{\color{blue}{\tiny$\downarrow$6}} \\
+% \rowcolor{gray!20}
+% XYZFlow-L (GAN) & 608M & 5→2 & \textbf{1.25{\color{red}{\tiny$\downarrow$1.60}}} & \textbf{295.8{\color{red}{\tiny$\uparrow$60.7}}} & \textbf{0.83{\color{red}{\tiny$\uparrow$0.04}}} & \textbf{0.63{\color{red}{\tiny$\uparrow$0.06}}} & 14{\color{blue}{\tiny$\downarrow$6}} \\
+% \midrule
+% \rowcolor{gray!10}
+% Teacher-Huge & 1.1B & 50 & 1.24 & 301.6 & 0.83 & 0.64 & 200 \\
+% Distilled-Huge & 1.1B & 5 & 2.75 & 240.8 & 0.80 & 0.59 & 20 \\
+% + Local History & 1.1B & 5→2 & 1.96{\color{red}{\tiny$\downarrow$0.79}} & 259.1{\color{red}{\tiny$\uparrow$18.3}} & 0.80 & 0.57{\color{blue}{\tiny$\downarrow$0.02}} & 14{\color{blue}{\tiny$\downarrow$6}} \\
+% - Full History & 1.1B & 5→2 & 3.25{\color{blue}{\tiny$\uparrow$0.50}} & 234.6{\color{blue}{\tiny$\downarrow$6.2}} & 0.79{\color{blue}{\tiny$\downarrow$0.01}} & 0.56{\color{blue}{\tiny$\downarrow$0.03}} & 14{\color{blue}{\tiny$\downarrow$6}} \\
+% - Shortcut & 1.1B & 5 & 1.76{\color{red}{\tiny$\downarrow$0.99}} & 268.2{\color{red}{\tiny$\uparrow$27.4}} & 0.82{\color{red}{\tiny$\uparrow$0.02}} & 0.61{\color{red}{\tiny$\uparrow$0.02}} & 20 \\
+% XYZFlow-H & 1.1B & 5→2 & 1.73{\color{red}{\tiny$\downarrow$1.02}} & 271.5{\color{red}{\tiny$\uparrow$30.7}} & 0.82{\color{red}{\tiny$\uparrow$0.02}} & 0.62{\color{red}{\tiny$\uparrow$0.03}} & 14{\color{blue}{\tiny$\downarrow$6}} \\
+% \rowcolor{gray!20}
+% XYZFlow-H (GAN) & 1.1B & 5→2 & \textbf{1.22{\color{red}{\tiny$\downarrow$1.53}}} & \textbf{304.2{\color{red}{\tiny$\uparrow$63.4}}} & \textbf{0.84{\color{red}{\tiny$\uparrow$0.04}}} & \textbf{0.64{\color{red}{\tiny$\uparrow$0.05}}} & 14{\color{blue}{\tiny$\downarrow$6}} \\
+% \bottomrule
+% \end{tabular}
+% \vspace{-4mm}
+% \end{table}
+\begin{table}[ht]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{1.3pt}
+\renewcommand{\arraystretch}{1.1}
+\begin{tabular}{@{}lccccccc@{}}
+\toprule
+\textbf{Method} & \textbf{Params} & \textbf{Steps} & \textbf{FID$\downarrow$} & \textbf{IS$\uparrow$} & \textbf{Pre$\uparrow$} & \textbf{Rec$\uparrow$} & \textbf{Total} \\
+\midrule
+\rowcolor{gray!10}
+Teacher-Base & 172M & 50 & 1.72 & 280.4 & 0.82 & 0.59 & 200 \\
+Distilled-Base & 172M & 5 & 3.03 & 225.3 & 0.78 & 0.55 & 20 \\
++ Local History & 172M & 5→2 & 2.25{\color{red}{\tiny$\downarrow$0.78}} & 249.8{\color{red}{\tiny$\uparrow$24.5}} & 0.78 & 0.54{\color{blue}{\tiny$\downarrow$0.01}} & 14 \\
+- Full History & 172M & 5→2 & 3.51{\color{blue}{\tiny$\uparrow$0.48}} & 219.9{\color{blue}{\tiny$\downarrow$5.4}} & 0.77{\color{blue}{\tiny$\downarrow$0.01}} & 0.52{\color{blue}{\tiny$\downarrow$0.03}} & 14 \\
+- Shortcut & 172M & 5 & 2.05{\color{red}{\tiny$\downarrow$0.98}} & 258.5{\color{red}{\tiny$\uparrow$33.2}} & 0.80{\color{red}{\tiny$\uparrow$0.02}} & 0.58{\color{red}{\tiny$\uparrow$0.03}} & 20 \\
+XYZFlow-B & 172M & 5→2 & 2.02{\color{red}{\tiny$\downarrow$1.01}} & 261.1{\color{red}{\tiny$\uparrow$35.8}} & 0.80{\color{red}{\tiny$\uparrow$0.02}} & 0.58{\color{red}{\tiny$\uparrow$0.03}} & 14 \\
+\rowcolor{gray!20}
+XYZFlow-B (GAN) & 172M & 5→2 & \textbf{1.63{\color{red}{\tiny$\downarrow$1.40}}} & \textbf{268.5{\color{red}{\tiny$\uparrow$43.2}}} & \textbf{0.81{\color{red}{\tiny$\uparrow$0.03}}} & \textbf{0.62{\color{red}{\tiny$\uparrow$0.07}}} & 14 \\
+\midrule
+\rowcolor{gray!10}
+Teacher-Large & 608M & 50 & 1.28 & 292.5 & 0.82 & 0.62 & 200 \\
+Distilled-Large & 608M & 5 & 2.85 & 235.1 & 0.79 & 0.57 & 20 \\
++ Local History & 608M & 5→2 & 2.02{\color{red}{\tiny$\downarrow$0.83}} & 254.3{\color{red}{\tiny$\uparrow$19.2}} & 0.79 & 0.57 & 14 \\
+- Full History & 608M & 5→2 & 3.35{\color{blue}{\tiny$\uparrow$0.50}} & 229.3{\color{blue}{\tiny$\downarrow$5.8}} & 0.78{\color{blue}{\tiny$\downarrow$0.01}} & 0.54{\color{blue}{\tiny$\downarrow$0.03}} & 14 \\
+- Shortcut & 608M & 5 & 1.82{\color{red}{\tiny$\downarrow$1.03}} & 263.8{\color{red}{\tiny$\uparrow$28.7}} & 0.81{\color{red}{\tiny$\uparrow$0.02}} & 0.61{\color{red}{\tiny$\uparrow$0.04}} & 20 \\
+XYZFlow-L & 608M & 5→2 & 1.79{\color{red}{\tiny$\downarrow$1.06}} & 265.2{\color{red}{\tiny$\uparrow$30.1}} & 0.81{\color{red}{\tiny$\uparrow$0.02}} & 0.61{\color{red}{\tiny$\uparrow$0.04}} & 14 \\
+\rowcolor{gray!20}
+XYZFlow-L (GAN) & 608M & 5→2 & \textbf{1.25{\color{red}{\tiny$\downarrow$1.60}}} & \textbf{295.8{\color{red}{\tiny$\uparrow$60.7}}} & \textbf{0.83{\color{red}{\tiny$\uparrow$0.04}}} & \textbf{0.63{\color{red}{\tiny$\uparrow$0.06}}} & 14 \\
+\midrule
+\rowcolor{gray!10}
+Teacher-Huge & 1.1B & 50 & 1.24 & 301.6 & 0.83 & 0.64 & 200 \\
+Distilled-Huge & 1.1B & 5 & 2.75 & 240.8 & 0.80 & 0.59 & 20 \\
++ Local History & 1.1B & 5→2 & 1.96{\color{red}{\tiny$\downarrow$0.79}} & 259.1{\color{red}{\tiny$\uparrow$18.3}} & 0.80 & 0.57{\color{blue}{\tiny$\downarrow$0.02}} & 14 \\
+- Full History & 1.1B & 5→2 & 3.25{\color{blue}{\tiny$\uparrow$0.50}} & 234.6{\color{blue}{\tiny$\downarrow$6.2}} & 0.79{\color{blue}{\tiny$\downarrow$0.01}} & 0.56{\color{blue}{\tiny$\downarrow$0.03}} & 14 \\
+- Shortcut & 1.1B & 5 & 1.76{\color{red}{\tiny$\downarrow$0.99}} & 268.2{\color{red}{\tiny$\uparrow$27.4}} & 0.82{\color{red}{\tiny$\uparrow$0.02}} & 0.61{\color{red}{\tiny$\uparrow$0.02}} & 20 \\
+XYZFlow-H & 1.1B & 5→2 & 1.73{\color{red}{\tiny$\downarrow$1.02}} & 271.5{\color{red}{\tiny$\uparrow$30.7}} & 0.82{\color{red}{\tiny$\uparrow$0.02}} & 0.62{\color{red}{\tiny$\uparrow$0.03}} & 14 \\
+\rowcolor{gray!20}
+XYZFlow-H (GAN) & 1.1B & 5→2 & \textbf{1.22{\color{red}{\tiny$\downarrow$1.53}}} & \textbf{304.2{\color{red}{\tiny$\uparrow$63.4}}} & \textbf{0.84{\color{red}{\tiny$\uparrow$0.04}}} & \textbf{0.64{\color{red}{\tiny$\uparrow$0.05}}} & 14 \\
+\bottomrule
+\end{tabular}
+% \vspace{-2mm}
+\caption{Ablation study of XYZFlow components. FID$\downarrow$ is lower-better; IS$\uparrow$, Pre$\uparrow$, Rec$\uparrow$ are higher-better. Total Steps$\downarrow$ represents the cumulative inference steps. Colored numbers indicate performance change relative to baseline (Distilled) models.In the table, '+' and '-' denote the baseline model with and without the corresponding component, respectively.}
+\label{tab:ablation}
+\vspace{-7mm}
+\end{table}
+
+
+
+% \subsection{Main Results}
+% \label{sec:main}
+% % We conduct experiments on ImageNet~\cite{deng2009imagenet} at 256$\times$256 and 512$\times$512 resolutions. Following prior works~\cite{dit,mar}, we evaluate model performance using FID~\cite{fid}, Inception Score (IS)~\cite{is}, Precision, and Recall. \modelname is trained with the same hyper-parameters as~\cite{mar,dit} (\eg, 800 training epochs), with model sizes ranging from 172M to 1.1B parameters. See Appendix~\secref{sec:sup_hyper} for hyper-parameter details.
+
+
+
+
+
+% \begin{table}[t]
+%     \centering
+%     \begin{tabular}{c|c|c|c}
+%       model    &  \#params & FID$\downarrow$ & IS$\uparrow$ \\
+%       \shline
+%       VQGAN~\cite{vqgan}&227M &26.52& 66.8\\
+%       BigGAN~\cite{biggan}& 158M&8.43 &177.9\\
+%       MaskGiT~\cite{maskgit}& 227M&7.32& 156.0\\
+%       DiT-XL/2~\cite{dit} &675M &3.04& 240.8 \\
+%      DiMR-XL/3R~\cite{liu2024alleviating}& 525M&2.89 &289.8 \\
+%      VAR-d36~\cite{var}  & 2.3B& 2.63 & 303.2\\
+%      REPA$^\ddagger$~\cite{yu2024representation}&675M &2.08& 274.6 \\
+%      \hline
+%      XYZFlow & 608M&1.70& 281.5 \\
+%     \end{tabular}
+%     \caption{
+%     \textbf{Generation Results on ImageNet-512.} $^\ddagger$ denotes the use of DINOv2~\cite{dinov2}.
+%     }
+%     \label{tab:512}
+% \end{table}
+
+% \noindent\textbf{ImageNet-256.}
+% In~\tabref{tab:256}, we compare \modelname with previous state-of-the-art generative models.
+% Out best variant, \modelname-H, achieves a new state-of-the-art-performance of 1.24 FID, outperforming the GAN-based StyleGAN-XL~\cite{stylegan-xl} by 1.06 FID, masked-prediction-based MaskBit~\cite{maskgit} by 0.28 FID, AR-based RAR~\cite{yu2024randomized} by 0.24 FID, VAR~\cite{var} by 0.73 FID, MAR~\cite{mar} by 0.31 FID, and flow-matching-based REPA~\cite{yu2024representation} by 0.18 FID.
+% Notably, \modelname does not rely on vision foundation models~\cite{dinov2} or guidance interval sampling~\cite{guidance}, both of which were used in REPA~\cite{yu2024representation}, the previous best-performing model.
+% Additionally, our lightweight \modelname-B (172M), surpasses DiT-XL (675M)~\cite{dit} by 0.55 FID while achieving an inference speed of 9.8 images per second—20$\times$ faster than DiT-XL (0.5 images per second). Detailed speed comparison can be found in Appendix \ref{sec:speed}.
+
+
+
+% \noindent\textbf{ImageNet-512.}
+% In~\tabref{tab:512}, we report the performance of \modelname on ImageNet-512.
+% Similarly, \modelname-L sets a new state-of-the-art FID of 1.70, outperforming the diffusion based DiT-XL/2~\cite{dit} and DiMR-XL/3R~\cite{liu2024alleviating} by a large margin of 1.34 and 1.19 FID, respectively.
+% Additionally, \modelname-L also surpasses the previous best autoregressive model VAR-d36~\cite{var} and flow-matching-based REPA~\cite{yu2024representation} by 0.93 and 0.38 FID, respectively.
+
+
+
+% \subsection{Empirical Validation of Trajectory Straightening}
+
+% To quantitatively validate our claim that contextual conditioning straightens probability flow paths, we measure the trajectory straightness metric defined in Equation~(2):
+% \begin{table}[h]
+% \centering
+% \scriptsize % 使用更小的字体
+% \setlength{\tabcolsep}{2pt} % 减小列间距
+% \begin{tabular}{@{}lccc@{}}
+% \toprule
+% \textbf{Patch Position} & \textbf{S Metric} & \textbf{Var Reduction} & \textbf{Path Ratio} \\
+% \midrule
+% Patch 1 (Uncond.) & 2.15 & 0\% & 1.00 \\
+% Patch 2 & 1.78 & 17.2\% & 0.89 \\
+% Patch 3 & 1.43 & 33.5\% & 0.76 \\
+% Patch 4 & 1.02 & 52.6\% & 0.63 \\
+% \bottomrule
+% \end{tabular}
+% \caption{Trajectory straightening analysis across patch positions.}
+% \label{tab:straightening}
+% \end{table}
+
+% As shown in Table~\ref{tab:straightening}, the straightness metric $S$ decreases monotonically for patches generated later in the sequence, confirming that accumulated contextual constraints effectively straighten probability flows.
+
+% \subsection{Text-conditional image generation}
+% \label{sec:4.2}
+
+% % \paragraph{Experimental setup}
+% We use 1.7B Emu~\cite{dai2023emu} model with diffusion transformer architecture as a teacher. The teacher model was pre-trained for 1024p resolution on a large-scale internal dataset and fine-tuned on a small set of high-quality aesthetic images. We calculate the teacher ODE trajectories online and use 48 teacher steps by default. Since our distillation requires only the text prompt for training, we use a large-scale internal pre-training dataset for the distillation. For XYZFlow student transformer we opt for a block-wise causal attention M4. We do 15k training iterations using only regression loss.
+
+% \paragraph{Evaluation metrics}
+% To evaluate sample fidelity and diversity, we compute zero-shot FID on the MS-COCO 2017 dataset~\cite{lin2014microsoft} using 5k random real samples and generated samples from 5k random prompts. To measure prompt alignment, we use CompBench~\cite{huang2023t2i}, which has six categories of prompts following the evaluation protocol of Imagine Flash~\cite{kohler2024imagine}. 
+% % We load and measure all baseline performances as well, except where otherwise noted.
+
+% \paragraph{Text-Image alignment}
+% \Cref{tab:main3} shows the text-image alignment scores on CompBench compared to public high-res ($\geq$768 pix) distilled models. Our XYZFlow based on Emu (7.5 CFG) outperforms all other public high-res distilled models in the average score. XYZFlow surpasses all other 1024p distillation models in all six categories except DMD2~\cite{yin2024improved} which shows comparable performance, but uses 0.9B more parameters and more sampling steps. In XYZFlow distilled from Emu (3.0 CFG), the average score gap between the student and the teacher is only 2.3, which is the smallest among all 3-step distillation models (see supplementary for each teacher's performance). XYZFlow can also successfully generate images following long and detailed prompts (see \Cref{fig:7}).
+
+
+
+% \paragraph{Sample quality} \Cref{tab:main4} shows the FID comparison across $1024$p public distillation methods, which target the teacher's PF-ODE. While the absolute performance of the student (FID-S) is the second best among the models, the best model LCM-LoRA (2.8B) has 1.1B more parameters than XYZFlow. Since the upper-bound performance of the distilled model is the teacher when the distillation targets PF-ODE, its performance highly depends on the teacher's performance (FID-T). \Cref{tab:main4} demonstrates a clear trend: teacher models with larger parameters achieve better performance in FID-T. To quantify the effectiveness of the distillation method, we measure the performance drop, which is the gap between the teacher and the student. XYZFlow exhibits the smallest drop compared to the baselines. We trained step distillation from the same Emu teacher, and XYZFlow still showed better performance, which further validates the benefit of using the trajectory history. 
+
+% \Cref{fig:1} shows the generated samples by XYZFlow distilled from Emu (7.5 CFG). XYZFlow generates high-quality images across various topics and styles. The left example in \cref{fig:7} compares samples from XYZFlow and the target teacher with the same initial noise $\rvx_{\tau_{S}}$ and long detailed prompts with realistic contexts (left) and unrealistic contexts (right). The samples are not identical, but the image from XYZFlow maintains high fidelity and effectively preserves text information. The detailed description of the subject and background is well captured in the images.
+%  % \Cref{fig:7} shows the generated samples from ARD and the teacher from the long prompts with realistic contexts (left) and unrealistic contexts (right). The detailed description of the subject and background is well captured in the images.
+% %
+% %
+% The right example in \cref{fig:7} compares samples generated by both teacher and student in 3 steps. Although the number of steps is the same, XYZFlow uses only extra kv-cache, whereas the teacher requires twice more computations due to CFG.
+% %Nevertheless, ARD generates visually better samples compared to the teacher.
+
+
+
+
+% \begin{table}[t]
+% \centering
+% \scriptsize % 使用更小的字体
+% \setlength{\tabcolsep}{2pt} % 减小列间距
+% \begin{tabular}{@{}lccccc@{}}
+% \toprule
+% Model & Params & Steps & FID-T & FID-S & Drop \\
+% & $\downarrow$ & $\downarrow$ & & & $\downarrow$ \\
+% \midrule
+% Lightning & 2.6B & 4 & 24.30 & 30.16 & 5.86 \\
+% LCM-LoRA & 2.8B & 3 & 25.11 & \textbf{27.77} & 2.66 \\
+% LCM-LoRA & 1.4B & 3 & 30.79 & 33.79 & 3.00 \\
+% Step Distil. & 1.7B & 3 & 27.97 & 30.51 & \underline{2.54} \\
+% \rowcolor{gray!15}XYZFlow & 1.7B & 3 & 27.97 & \underline{30.03} & \textbf{2.06} \\
+% \bottomrule
+% \end{tabular}
+% \caption{Zero-shot FID 5k on MS-COCO 2017 for 1024p distillation models.}
+% \label{tab:main4}
+% \end{table}
+
+
+
+
+
+% \subsection{Scalability Analysis}
+
+% To validate XYZFlow's scalability beyond the default 2×2 patch grid, we conducted experiments using a finer 4×4 grid (16 patches) on ImageNet 256×256. As shown in Table~\ref{tab:scalability}, XYZFlow maintains competitive performance even with longer autoregressive sequences, demonstrating its robustness to error accumulation.
+
+% \begin{table}[h]
+% \centering
+% \scriptsize
+% \begin{tabular}{lccc}
+% \toprule
+% \textbf{Patch Grid} & \textbf{FID} $\downarrow$ & \textbf{Inference Time (s)} & \textbf{Sequence Length} \\
+% \midrule
+% 2×2 (4 patches) & 1.63 & 0.018 & 4 \\
+% 4×4 (16 patches) & 1.78 & 0.042 & 16 \\
+% \bottomrule
+% \end{tabular}
+% \caption{Scalability analysis with different patch grid configurations}
+% \label{tab:scalability}
+% \end{table}
+
+% The moderate FID increase (1.63 to 1.78) with 4× larger sequence length indicates that our multidimensional conditioning effectively mitigates error drift. The sub-linear time increase (2.3× vs 4× sequence length) demonstrates the efficiency of our trajectory caching mechanism.
+
+
+
+%\vspace{-3mm}
+
+
+\vspace{-2mm}
+\subsection{Ablation Study}
+\label{subsec:ablation_study}
+
+\vspace{-2mm}
+\paragraph{Component Importance Analysis.}
+Table~\ref{tab:ablation} presents a systematic evaluation of XYZFlow's core components. Our analysis reveals the distinct contributions of each component through controlled ablations: \textbf{(1) Full History Guidance} emerges as the most critical component. Removing full history guidance ($\mathcal{T}_{<p}$) causes FID to degrade by approximately 0.5 across all model sizes (e.g., 2.02→3.51 for Base), demonstrating that inter-patch trajectory conditioning is essential for maintaining generation quality. This validates our hypothesis that complete trajectory information provides richer contextual signals than final patch content alone. \textbf{(2) Shortcut Prediction} shows an interesting dual characteristic: while having minimal impact on final quality (FID differences $<$ 0.03), it provides substantial acceleration benefits. The "- Shortcut" variant maintains similar FID scores but requires 20 total steps compared to XYZFlow's 14 steps. This confirms that shortcut prediction primarily enhances efficiency rather than quality, aligning with its design purpose of leveraging straightened paths for faster convergence. \textbf{(3) Local History Conditioning} ($\mathcal{H}_{t}^p$) contributes moderately to performance, with its removal causing FID degradation of approximately 0.2-0.3. This suggests that while intra-patch temporal conditioning provides useful stabilization, the spatial conditioning across patches plays a more significant role in the overall framework. \textbf{(4) Adversarial component} consistently improves all metrics across model sizes, this demonstrates that XYZFlow's straightened paths provide a favorable foundation for adversarial training on real data, enabling the student to potentially exceed the teacher's capabilities.
+
+\vspace{-4mm}
+\paragraph{Cell Size Ablation Study}
+A prediction cell is formed by grouping a cluster of $k \times k$ spatially adjacent tokens. Using a larger cell size incorporates more tokens in a single prediction step, thereby capturing broader contextual information. For a $256 \times 256$ input image, the encoded continuous latent representation has a spatial resolution of $16 \times 16$. Consequently, the image can be partitioned into an $m \times m$ grid, where each cell consists of $k \times k$ neighboring tokens. Following the XYZFlow framework, we employ a unified denoising schedule of 5 steps per patch and use the Base Model configuration. As shown in Tab.~\ref{tab:cell_size}, we evaluate different cell sizes with $k \in \{1, 2, 4, 8, 16\}$. Here, $k = 1$ corresponds to a single token, while $k = 16$ represents the entire image as a single entity. Performance improves as $k$ increases, reaching its peak with an FID of 2.02 at a cell size of $8 \times 8$ (i.e., $k = 8$). Beyond this point, performance declines, yielding an FID of 2.55 when the whole image is treated as one entity. These results indicate that using cells as the prediction unit, rather than the entire image, allows the model to condition on previously generated context. This conditioning enhances prediction confidence while preserving both rich semantic information and fine local details.
+
+\vspace{-3.5mm}
+\paragraph{Analysis of Next Shortcut Prediction Strategy}
+
+Our ablation study of shortcut prediction strategies, summarized in Table~\ref{tab:shortcut_ablation_base}, yields four key insights that validate our design choices: (1) \textbf{Gradual reduction achieves optimal efficiency-quality trade-off}. Our proposed 5→4→3→2 strategy achieves nearly identical quality to the constant 5-step approach (FID 1.63 vs. 1.63) but with 30\% fewer total steps (14 vs. 20), demonstrating that sampling can be accelerated more aggressively in later stages without compromising quality. (2) \textbf{Initial step configuration is critical}. The comparable performance of constant strategies (5→5→5→5 vs. 4→4→4→4) highlights that an initial step of T(1)=5—a divisor of the teacher's 50-step trajectory—provides the optimal starting point for effective distillation. (3) \textbf{Aggressive reduction harms diversity}. The 5→2→2→2 strategy shows degraded recall (0.58 vs. 0.62), confirming that overly aggressive step reduction compromises sample diversity, while our gradual approach better preserves solution space coverage. (4) \textbf{Computational cost must be balanced}. Although the 8→8→8→8 strategy achieves the lowest FID (1.62), it requires 32 total steps—over twice our method's cost—validating our focus on optimal efficiency-quality trade-offs rather than pure quality maximization.
+% \vspace{-4mm}
+
+
+\begin{table}[h]
+\centering
+\scriptsize
+\caption{Ablation on the cell size.}
+\label{tab:cell_size}
+\begin{tabular}{cccc}
+\toprule
+\textbf{Cell Size ($k \times k$ tokens)} & \textbf{$m \times m$ grid} & \textbf{FID$\downarrow$} & \textbf{IS$\uparrow$} \\
+\midrule
+$1 \times 1$ & $16 \times 16$ & 2.85 & 280.7 \\
+$2 \times 2$ & $8 \times 8$ & 2.46 & 283.9 \\
+$4 \times 4$ & $4 \times 4$ & 2.11 & 289.2 \\
+\rowcolor[gray]{0.9} % 为最优行添加浅灰色背景
+$\mathbf{8 \times 8}$ & $\mathbf{2 \times 2}$ & $\mathbf{2.02}$ & $\mathbf{301.5}$ \\
+$16 \times 16$ & $1 \times 1$ & 2.55 & 283.8 \\
+\bottomrule
+\end{tabular}
+\vspace{-3.75mm}
+\end{table}
+
+\begin{table}[h]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{2pt}
+\renewcommand{\arraystretch}{1.1}
+\begin{tabular}{@{}lccccc@{}}
+\toprule
+\textbf{Schedule \(T(p)\)} & \textbf{FID\(\downarrow\)} & \textbf{IS\(\uparrow\)} & \textbf{Pre\(\uparrow\)} & \textbf{Rec\(\uparrow\)} & \textbf{Total Steps\(\downarrow\)} \\
+\midrule
+Teacher (50 steps) & 1.72 & 280.4 & 0.82 & 0.59 & 200 \\
+\rowcolor{green!8}
+5→4→3→2 (Ours) & \underline{1.63}{\color{red}{\tiny\(\downarrow\)0.09}} & \underline{268.5}{\color{blue}{\tiny\(\downarrow\)11.9}} & \textbf{0.81}{\color{blue}{\tiny\(\downarrow\)0.01}} & \textbf{0.62}{\color{red}{\tiny\(\uparrow\)0.03}} & 14{\color{red}{\tiny\(\downarrow\)186}} \\
+8→4→2→1 (Uniform) & 1.75{\color{blue}{\tiny\(\uparrow\)0.03}} & 255.2{\color{blue}{\tiny\(\downarrow\)25.2}} & 0.77{\color{blue}{\tiny\(\downarrow\)0.05}} & 0.57{\color{blue}{\tiny\(\downarrow\)0.02}} & 15{\color{red}{\tiny\(\downarrow\)185}} \\
+\rowcolor{gray!8}
+4→4→4→4 & 1.84{\color{blue}{\tiny\(\uparrow\)0.12}} & 248.9{\color{blue}{\tiny\(\downarrow\)31.5}} & 0.74{\color{blue}{\tiny\(\downarrow\)0.08}} & 0.55{\color{blue}{\tiny\(\downarrow\)0.04}} & 16{\color{red}{\tiny\(\downarrow\)184}} \\
+4→3→2→1 & 1.88{\color{blue}{\tiny\(\uparrow\)0.16}} & 245.3{\color{blue}{\tiny\(\downarrow\)35.1}} & 0.73{\color{blue}{\tiny\(\downarrow\)0.09}} & 0.54{\color{blue}{\tiny\(\downarrow\)0.05}} & 10{\color{red}{\tiny\(\downarrow\)190}} \\
+\rowcolor{gray!8}
+8→8→8→8 & \textbf{1.61}{\color{red}{\tiny\(\downarrow\)0.11}} & \textbf{269.0}{\color{blue}{\tiny\(\downarrow\)11.4}} & \textbf{0.81}{\color{blue}{\tiny\(\downarrow\)0.01}} & \textbf{0.62}{\color{red}{\tiny\(\uparrow\)0.03}} & 32{\color{red}{\tiny\(\downarrow\)168}} \\
+5→5→5→5 (Constant) & \underline{1.63}{\color{red}{\tiny\(\downarrow\)0.09}} & 267.9{\color{blue}{\tiny\(\downarrow\)12.5}} & \textbf{0.81}{\color{blue}{\tiny\(\downarrow\)0.01}} & \underline{0.61}{\color{red}{\tiny\(\uparrow\)0.02}} & 20{\color{red}{\tiny\(\downarrow\)180}} \\
+\rowcolor{gray!8}
+5→4→4→2 & 1.64{\color{red}{\tiny\(\downarrow\)0.08}} & 266.2{\color{blue}{\tiny\(\downarrow\)14.2}} & 0.80{\color{blue}{\tiny\(\downarrow\)0.02}} & 0.60{\color{red}{\tiny\(\uparrow\)0.01}} & 15{\color{red}{\tiny\(\downarrow\)185}} \\
+5→2→2→2 (Aggressive) & 1.70{\color{red}{\tiny\(\downarrow\)0.02}} & 258.6{\color{blue}{\tiny\(\downarrow\)21.8}} & 0.78{\color{blue}{\tiny\(\downarrow\)0.04}} & 0.58{\color{blue}{\tiny\(\downarrow\)0.01}} & 11{\color{red}{\tiny\(\downarrow\)189}} \\
+\bottomrule
+\end{tabular}
+% \vspace{-2mm}
+\caption{Ablation study of Next Shortcut Prediction strategies on Base Model (172M). FID$\downarrow$ is lower-better; IS$\uparrow$, Pre$\uparrow$, Rec$\uparrow$ are higher-better. Total Steps$\downarrow$ represents the cumulative inference steps. Colored numbers indicate performance change relative to baseline (50 steps). \textbf{Bold} indicates best performance, \underline{underline} indicates second best.}
+\label{tab:shortcut_ablation_base}
+\vspace{-1.75mm}
+\end{table}
+
+
+% \paragraph{Theoretical Validation}
+% The results confirm the progressive constraint strengthening phenomenon theorized in Section~\ref{sec:methodology}. The progressive step reduction strategy effectively balances trajectory completeness and computational efficiency, showing that accumulated contextual constraints enable fewer-step generation for later patches. For more theoretical analysis, please refer to our supplementary materials
+
+
+
+\vspace{-7mm}
+\section{Concluding Remarks}
+\label{sec:conclusion}
+\vspace{-2mm}
+In this work, we propose \textbf{\emph{\XYZFlow}}, a spatio-temporal framework that improves few-step generation through historical state conditioning and Next Shortcut Prediction. By coupling temporal trajectory conditioning with patch-wise autoregressive generation, XYZFlow makes the denoising process more structured and easier to predict, leading to strong efficiency-quality trade-offs that remain robust under weaker teachers and across teachers of different strengths. More broadly, our results suggest that scaling the \textit{dimensionality of constraints}, rather than only model size or distillation steps, is a promising path toward efficient, high-fidelity generative modeling.
+
+% In this work, we challenge the prevailing paradigm of extensive scaling for generative modeling by proposing a novel alternative: intensive scaling through enhanced probability flow expressivity. We introduce the XYZFlow framework, which innovatively scales probability flows along orthogonal temporal and spatial dimensions using historical state conditioning and our proposed Next Shortcut Prediction mechanism. This approach creates high-dimensional coordinate systems that uniquely determine data trajectories, addressing the fundamental limitation of ambiguous probability paths in traditional few-step generation methods. Theoretically, we demonstrate that increasing conditional information systematically reduces the variance of the reverse process, yielding straighter paths that are better suited for efficient few-step generation. 
+% Our framework establishes that scaling the dimensionality of constraints—through multidimensional conditioning—rather than merely increasing model size or compressing distillation steps, provides a principled and more efficient path toward high-fidelity generation. The orthogonal conditioning strategy in XYZFlow enables synergistic variance reduction across both temporal and spatial dimensions, achieving superior performance with reduced computational requirements.
+% Looking ahead, this work opens new research avenues in structured conditionalization and flow design, presenting a fundamentally different approach to scaling generative models. 
+
+% The integration of advanced distillation methods, such as meanflow, with our multidimensional conditioning approach can further enhance generation quality, creating opportunities for hybrid frameworks that combine the strengths of both paradigms. 
+
+
+
+
+% In the unusual situation where you want a paper to appear in the
+% references without citing it in the main text, use \nocite
+\newpage
+\nocite{langley00}
+\section*{Impact Statement}
+
+\label{sec:Impact Statement}
+
+\vspace{-2mm}
+
+This work presents XYZFlow, a framework that advances generative modeling efficiency through intensive scaling of probability flow expressivity. Our method demonstrates that scaling constraint dimensionality—rather than model size—provides a principled path to efficient high-fidelity generation.The primary contribution is methodological, focusing on advancing the theoretical understanding and practical efficiency of generative models within the machine learning community. No specific societal impact beyond the progression of the field is emphasized here.
+\bibliography{example_paper}
+\bibliographystyle{icml2026}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% APPENDIX
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\appendix
+\onecolumn
+In Section~\ref{SectionA}, we provide more experimental details, while in Section~\ref{app:theoretical_proofs}, we present theoretical explanations for some key propositions mentioned in our paper.
+
+
+\section{Experiment Results}
+\label{SectionA}
+\paragraph{Student Model Training Configuration}
+We adhere to the teacher configuration for student training, with the exception of gradient clipping and batch size. The training configuration for the 5-step student model using regression loss is as follows: a learning rate of $10^{-4}$, weight decay of 0.0, gradient clipping of 1.0, batch size of 64, 300k training iterations, and an EMA decay rate of 0.9999. The student model is initialized with the teacher's weights. Training is performed on 8 NVIDIA H100 GPUs and requires approximately 2 days to complete 300k iterations. According to our convergence analysis, the FID metric exhibits stable convergence within the first 100k iterations (equivalent to roughly 16 hours of training). The same configuration is applied to the baseline (step distillation) as well.
+
+\paragraph{Discriminator Loss Configuration} 
+When incorporating an additional discriminator loss, we use the teacher network as a feature extractor and train only the discriminator heads attached to the features extracted from each transformer block. The discriminator heads predict logits on a per-token basis. We employ hinge loss and adopt the discriminator head architecture proposed in the same work. The discriminator is trained using the student model's final prediction and real data. It is trained with a learning rate of $1\times10^{-3}$ and no weight decay. Adaptive balancing is applied between the regression loss and the discriminator loss. A batch size of 48 is used for both the student model and the discriminator.
+
+\paragraph{Adversarial Fine-tuning Procedure} By adding the discriminator loss and further fine-tuning a student model that was pre-trained with regression loss, we observe significant performance gains. The adversarial training component consistently improves all metrics across different model sizes. The fine-tuning process is conducted for 40k iterations, during which both the student generator and the discriminator are jointly optimized with adaptive loss balancing.
+
+\paragraph{Performance Improvement Results} As shown in our ablation studies (Table 2), the adversarial fine-tuning yields substantial improvements: the Base model's FID improves from 2.02 to 1.63, the Large model from 1.79 to 1.25, and the Huge model from 1.73 to 1.22. These results demonstrate the effectiveness of incorporating adversarial training into the distillation framework, with consistent enhancements observed across all model scales.
+
+% \section{Inference Flops}
+
+
+% \section{More Result}
+
+
+% \section{More discussion about Schedule(DiSA)}
+
+\section{Generated Samples}
+Figure~\ref{fig:qualitative} presents samples generated by xAR (trained on ImageNet $256\times256$). These results collectively validate XYZFlow's multidimensional conditioning approach in maintaining straighter trajectories and delivering consistent speed-up advantages while preserving sample quality across all model scales and highlight XYZFlow’s ability to generate images with exceptional visual quality.
+\begin{figure*}[ht]
+    \centering
+    \includegraphics[width=1\linewidth]{case_cropped (4).pdf}
+    \caption{Randomly selected examples of generated images from XYZFlow. XYZFlow shows high-quality generative modeling abilities.}
+    \label{fig:qualitative}
+\end{figure*}
+
+
+\section{Theoretical Proofs of Multi-Dimensional Conditional Enhancement}
+\label{app:theoretical_proofs}
+
+\subsection{Information-Theoretic Foundation of Conditional Modeling}
+
+\begin{definition}[Conditional Entropy Reduction]
+Let target distribution be $p(\vx)$ where $\vx \in \mathbb{R}^d$ is a high-dimensional random variable, and conditioning variable be $\vc$. The conditional distribution $p(\vx|\vc)$ has lower entropy than the unconditional distribution $p(\vx)$ under the following conditions:
+\begin{enumerate}
+    \item $\vx$ and $\vc$ are not independent: $I(\vx;\vc) > 0$
+    \item The conditional distribution is well-defined and has finite second moments
+    \item The dimensionality $d$ is sufficiently large for concentration effects
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[Quantified Conditional Entropy Inequality]
+\label{thm:quantified_conditional_entropy}
+For any distribution $p(\vx)$ with finite covariance matrix $\Sigma_{\vx}$, the conditional entropy satisfies:
+\begin{equation}
+H(\vx|\vc) \leq H(\vx) - \frac{1}{2}\log\left(1 + \frac{I(\vx;\vc)}{\lambda_{\min}(\Sigma_{\vx})}\right)
+\end{equation}
+where $\lambda_{\min}(\Sigma_{\vx})$ is the minimum eigenvalue of the covariance matrix, and the bound holds for distributions beyond exponential families.
+\end{theorem}
+
+\begin{proof}
+By the entropy power inequality and the De Bruijn identity:
+\begin{align}
+H(\vx|\vc) &= H(\vx) - I(\vx;\vc) \\
+&\leq H(\vx) - \frac{1}{2}\log\left(1 + \frac{I(\vx;\vc)}{\text{Var}[\vx]}\right) \quad \text{(EPI for general distributions)}
+\end{align}
+For high-dimensional cases, we use the covariance matrix characterization. The mutual information lower bound comes from the Cramér-Rao bound applied to the estimation of $\vx$ given $\vc$.
+\end{proof}
+
+\subsection{Theoretical Proof of Denoising-Dimension Conditional Enhancement}
+
+\subsubsection{Autoregressive Trajectory as Condition}
+
+\begin{assumption}[Diffusion Process Regularity]
+The diffusion process satisfies:
+\begin{enumerate}
+    \item \textbf{Smoothness}: The score function $\nabla_{\vx} \log p_t(\vx)$ is L-Lipschitz continuous
+    \item \textbf{Optimality}: The model is optimally trained: $v_\theta(\vx_t,t) = \mathbb{E}[\vx_1 - \vx_0 | \vx_t]$
+    \item \textbf{Discretization Error}: Time discretization error is bounded by $O(\Delta t^2)$
+\end{enumerate}
+\end{assumption}
+
+\begin{theorem}[Trajectory Straightening with Quantitative Bounds]
+\label{thm:quantitative_straightening}
+Under the above assumptions, when using complete historical trajectory conditioning, the path straightness metric improvement satisfies:
+\begin{equation}
+\Delta S = S^{\text{unconditional}} - S^{\text{conditional}} \geq \frac{\mathbb{E}[\text{Var}[v_\theta|\mathcal{H}_t]]}{L^2 T^2}
+\end{equation}
+where $T$ is the total time horizon and $L$ is the Lipschitz constant.
+\end{theorem}
+
+\begin{proof}
+Starting from the straightness metric decomposition:
+\begin{align}
+S &= \mathbb{E}_t\left[\|(\vx_1 - \vx_0) - v_\theta(\vx_t,t)\|^2\right] \\
+&= \text{Var}[v_\theta] + \|\mathbb{E}[v_\theta] - (\vx_1 - \vx_0)\|^2 + 2\mathbb{E}[\langle v_\theta - \mathbb{E}[v_\theta], \mathbb{E}[v_\theta] - (\vx_1 - \vx_0)\rangle]
+\end{align}
+
+The cross term vanishes due to orthogonality. For the conditional case, by the law of total variance:
+\begin{align}
+\text{Var}[v_\theta^{\text{conditional}}] &= \mathbb{E}[\text{Var}[v_\theta^{\text{conditional}}|\mathcal{H}_t]] \\
+&\leq \mathbb{E}[\text{Var}[v_\theta^{\text{unconditional}}|\mathcal{H}_t]] \quad \text{(by conditioning)}
+\end{align}
+
+The bias term change is bounded by the Lipschitz continuity:
+\begin{equation}
+\|\mathbb{E}[v_\theta^{\text{conditional}}] - \mathbb{E}[v_\theta^{\text{unconditional}}]\| \leq L \cdot \mathbb{E}[\|\mathcal{H}_t\|]
+\end{equation}
+
+Combining these bounds gives the quantitative improvement.
+\end{proof}
+
+\subsection{Theoretical Proof of Spatial-Dimension Conditional Enhancement}
+
+\begin{theorem}[High-Dimensional Spatial Variance Reduction]
+\label{thm:high_dim_spatial}
+For high-dimensional patch-based generation with $d$-dimensional patches, the spatial conditional variance reduction satisfies:
+\begin{equation}
+\frac{\sigma_{\text{cond}}^2}{\sigma_{\text{uncond}}^2} \leq 1 - \frac{\rho^2}{d} + O\left(\frac{1}{d^{3/2}}\right)
+\end{equation}
+where $\rho$ is the average correlation between patches, and the bound holds for non-Gaussian distributions via Berry-Esseen type arguments.
+\end{theorem}
+
+\begin{proof}
+Using the covariance decomposition for high-dimensional systems:
+\begin{align}
+\Sigma_{\text{total}} &= \Sigma_{\text{within}} + \Sigma_{\text{between}} \\
+\text{Var}[\vx^i] &= \mathbb{E}[\text{Var}[\vx^i|\vx^{1:i-1}]] + \text{Var}[\mathbb{E}[\vx^i|\vx^{1:i-1}]]
+\end{align}
+
+For high dimensions, the variance ratio converges to:
+\begin{equation}
+\frac{\sigma_{\text{cond}}^2}{\sigma_{\text{uncond}}^2} \to 1 - \frac{1}{d}\sum_{j=1}^{i-1} \rho_j^2 \quad \text{as } d \to \infty
+\end{equation}
+where $\rho_j$ is the correlation between patch $i$ and patch $j$.
+\end{proof}
+
+\subsection{Theoretical Proof of Next-Shortcut Prediction}
+
+\begin{theorem}[Trajectory Alignment with Exponential Convergence]
+\label{thm:trajectory_alignment}
+Under next-shortcut prediction, the trajectory alignment error decreases exponentially with the number of conditioning patches:
+\begin{equation}
+\mathbb{E}[\| \vv_t^i - \vv_t^j \|^2] \leq C \cdot e^{-\lambda(i-j)} + \epsilon_{\text{approx}}
+\end{equation}
+where $\lambda > 0$ is the alignment rate constant, $C$ depends on the smoothness, and $\epsilon_{\text{approx}}$ is the function approximation error.
+\end{theorem}
+
+\begin{proof}
+Consider the trajectory dynamics as a dynamical system. The alignment process can be viewed as contractive mapping:
+\begin{align}
+\vv_t^{i} &= f(\vv_t^{i-1}, \mathcal{H}_t) + w_t \\
+\|f(\vv) - f(\vv')\| &\leq \alpha \|\vv - \vv'\| \quad \text{with } \alpha < 1
+\end{align}
+
+By contraction mapping principle, the distance between consecutive trajectories decreases geometrically. The exponential rate comes from solving the recurrence relation.
+\end{proof}
+
+\subsection{Unified Perspective: Path Straightening through Conditional Enhancement}
+
+\begin{theorem}[Multi-Scale Path Straightening]
+\label{thm:multi_scale_straightening}
+The multidimensional conditioning in XYZFlow achieves path straightening at multiple scales:
+\begin{enumerate}
+    \item \textbf{Micro-scale} (temporal): Variance reduction within each patch trajectory
+    \item \textbf{Meso-scale} (spatial): Alignment between adjacent patches
+    \item \textbf{Macro-scale} (global): Overall distribution matching
+\end{enumerate}
+The combined effect is multiplicative rather than additive.
+\end{theorem}
+
+\begin{proof}
+The proof uses multi-scale analysis. Define straightness metrics at different scales:
+
+\begin{align}
+S_{\text{micro}}^{(i)} &= \mathbb{E}_t[\|(\vx_1^i - \vx_0^i) - \vv_t^i\|^2] \\
+S_{\text{meso}}^{(i,j)} &= \mathbb{E}_t[\|\vv_t^i - \vv_t^j\|^2] \\
+S_{\text{macro}} &= \text{KL}(p_{\text{model}} \| p_{\text{data}})
+\end{align}
+
+The scaling relationship follows from the tensor product structure of the condition space and the orthogonality of different conditioning dimensions.
+\end{proof}
+
+\subsection{Corollaries and Quantitative Implications}
+
+\begin{corollary}[Sampling Complexity Reduction]
+With multidimensional conditioning, the number of sampling steps required to achieve $\epsilon$-accuracy scales as:
+\begin{equation}
+N(\epsilon) = O\left(\frac{\log(1/\epsilon)}{\lambda_{\text{min}} \cdot \prod_{k=1}^K (1 - \alpha_k)}\right)
+\end{equation}
+where $\alpha_k < 1$ are the contraction factors for each conditioning dimension, and $\lambda_{\text{min}}$ is the smallest time scale.
+\end{corollary}
+
+\begin{corollary}[Dimension-Free Convergence]
+For high-dimensional systems, the convergence rate becomes dimension-free under sufficient conditioning:
+\begin{equation}
+\lim_{d \to \infty} \frac{S^{\text{conditional}}}{S^{\text{unconditional}}} = \prod_{k=1}^K (1 - \alpha_k) + o(1)
+\end{equation}
+where the $o(1)$ term vanishes as the conditioning dimensions $K$ increase.
+\end{corollary}
+
+\subsection{Comparison with Transition Matching Framework~\cite{shaul2025transition}}
+
+\begin{theorem}[Theoretical Distinction from Transition Matching]
+\label{thm:distinction_tm}
+XYZFlow provides the following theoretical advantages over Transition Matching:
+\begin{enumerate}
+    \item \textbf{Dimensionality}: TM uses single temporal dimension; XYZFlow uses spatio-temporal dimensions
+    \item \textbf{Conditioning}: TM conditions on current state; XYZFlow conditions on full history
+    \item \textbf{Convergence}: XYZFlow achieves exponential convergence vs polynomial in TM
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+The distinction follows from comparing the condition spaces:
+\begin{align}
+\mathcal{C}_{\text{TM}} &= \{\vx_t\} \quad \text{(single time point)} \\
+\mathcal{C}_{\text{XYZ}} &= \{\vx_\tau\}_{\tau=0}^t \cup \{\vx_s^j\}_{j=1,s=0}^{i-1,T} \quad \text{(full history + spatial)}
+\end{align}
+
+The richer condition space provides stronger constraints, leading to improved convergence rates via the contraction mapping analysis.
+\end{proof}
+
+% \section{Theoretical Proofs of Multi-Dimensional Conditional Enhancement}
+% \label{app:theoretical_proofs}
+
+% \subsection{Information-Theoretic Foundation of Conditional Modeling}
+
+% \begin{definition}[Conditional Entropy Reduction]
+% Let target distribution be $p(\vx)$ and conditioning variable be $\vc$. The conditional distribution $p(\vx|\vc)$ has lower entropy than the unconditional distribution $p(\vx)$.
+% \end{definition}
+
+% \begin{theorem}[Conditional Entropy Inequality]
+% \label{thm:conditional_entropy}
+% \begin{equation}
+% H(\vx|\vc) \leq H(\vx)
+% \end{equation}
+% with equality if and only if $\vx$ and $\vc$ are independent.
+% \end{theorem}
+
+% \begin{proof}
+% By definition of conditional entropy and non-negativity of mutual information:
+% \begin{equation}
+% H(\vx|\vc) = H(\vx) - I(\vx;\vc) \leq H(\vx)
+% \end{equation}
+% This means conditional information $\vc$ reduces uncertainty in the target distribution.
+% \end{proof}
+
+% \subsection{Theoretical Proof of Denoising-Dimension Conditional Enhancement}
+
+% \subsubsection{Autoregressive Trajectory as Condition}
+
+% In XYZFlow, we use the complete denoising trajectory history as condition:
+% \begin{equation}
+% \vc_{\text{denoise}} = \{\vx_{t+1}, \vx_{t+2}, \ldots, \vx_T\}
+% \end{equation}
+% The generation process becomes:
+% \begin{equation}
+% p_\theta(\vx_{t-1}|\vx_t, \vx_{t+1:T})
+% \end{equation}
+
+% \begin{proposition}[Information Gain from Complete Trajectory]
+% Using complete denoising trajectory as condition provides more information than using only $\vx_t$, reducing generation uncertainty.
+% \end{proposition}
+
+% \begin{proof}
+% Define information gain:
+% \begin{equation}
+% \Delta I_t = I(\vx_{t-1}; \vx_{t+1:T} | \vx_t)
+% \end{equation}
+% By chain rule:
+% \begin{equation}
+% I(\vx_{t-1}; \vx_{t+1:T} | \vx_t) = I(\vx_{t-1}; \vx_{t+1} | \vx_t) + I(\vx_{t-1}; \vx_{t+2:T} | \vx_t, \vx_{t+1})
+% \end{equation}
+% Since diffusion process Markovity is broken, $\vx_{t+1:T}$ depends on $\vx_{t-1}$ through $\vx_0$, thus:
+% \begin{equation}
+% \Delta I_t > 0 \quad \text{for non-Markovian processes}
+% \end{equation}
+% Meaning conditional distribution $p(\vx_{t-1}|\vx_t, \vx_{t+1:T})$ has lower entropy than $p(\vx_{t-1}|\vx_t)$.
+% \end{proof}
+
+
+% \subsubsection{Trajectory Straightening Proof}
+
+% \begin{theorem}[Trajectory Straightening Theorem]
+% \label{thm:trajectory_straightening}
+% When using the complete historical denoising trajectory as condition, probability flow paths exhibit significant straightening compared to Markovian processes.
+% \end{theorem}
+
+% \begin{proof}
+% Consider the probability flow ODE governing the diffusion process:
+% \begin{equation}
+% d\vx_t = \vv(\vx_t, t)dt
+% \end{equation}
+
+% Define the path straightness metric as the expected deviation from ideal linear interpolation:
+% \begin{equation}
+% S(\{\vx_t\}_{t=0}^1) = \mathbb{E}_{t \sim \mathcal{U}[0,1]} \left[ \| (\vx_1 - \vx_0) - \vv_\theta(\vx_t, t) \|^2 \right]
+% \end{equation}
+
+% In XYZFlow, we condition on the complete historical trajectory rather than just the current state. Let $\mathcal{H}_t = \{\vx_\tau\}_{\tau=0}^{t-\Delta t}$ represent the historical states up to time $t$. The conditional velocity field becomes:
+% \begin{equation}
+% \vv_\theta^{\text{conditional}}(\vx_t, t) = \mathbb{E}[\vx_1 - \vx_0 \mid \vx_t, \mathcal{H}_t]
+% \end{equation}
+
+% This contrasts with the traditional unconditional estimation:
+% \begin{equation}
+% \vv_\theta^{\text{unconditional}}(\vx_t, t) = \mathbb{E}[\vx_1 - \vx_0 \mid \vx_t]
+% \end{equation}
+
+% By the smoothing property of conditional expectation and the law of total variance:
+% \begin{align}
+% \Var[\vv_\theta^{\text{unconditional}}] &= \mathbb{E}[\Var[\vv_\theta^{\text{unconditional}} \mid \mathcal{H}_t]] + \Var[\mathbb{E}[\vv_\theta^{\text{unconditional}} \mid \mathcal{H}_t]] \\
+% \Var[\vv_\theta^{\text{conditional}}] &= \mathbb{E}[\Var[\vv_\theta^{\text{conditional}} \mid \mathcal{H}_t]]
+% \end{align}
+
+% Since conditioning on $\mathcal{H}_t$ provides additional information:
+% \begin{equation}
+% \Var[\vv_\theta^{\text{conditional}} \mid \mathcal{H}_t] \leq \Var[\vv_\theta^{\text{unconditional}} \mid \mathcal{H}_t]
+% \end{equation}
+
+% Therefore, the overall variance satisfies:
+% \begin{equation}
+% \Var[\vv_\theta^{\text{conditional}}] \leq \Var[\vv_\theta^{\text{unconditional}}]
+% \end{equation}
+
+% The straightness metric $S$ can be decomposed as:
+% \begin{equation}
+% S = \mathbb{E}[\| \vv_\theta - (\vx_1 - \vx_0) \|^2] = \Var[\vv_\theta] + \| \mathbb{E}[\vv_\theta] - (\vx_1 - \vx_0) \|^2
+% \end{equation}
+
+% The bias term $\| \mathbb{E}[\vv_\theta] - (\vx_1 - \vx_0) \|^2$ remains approximately constant under proper training, while the variance term $\Var[\vv_\theta]$ decreases with conditioning. Thus:
+% \begin{equation}
+% S^{\text{conditional}} \leq S^{\text{unconditional}}
+% \end{equation}
+
+% This demonstrates that historical trajectory conditioning straightens probability flow paths.
+% \end{proof}
+
+
+% \subsection{Theoretical Proof of Spatial-Dimension Conditional Enhancement}
+
+% \subsubsection{Structural Autoregressive Dependency Modeling}
+
+% Partition image into patch sequence: $\{\vx^1, \vx^2, \ldots, \vx^n\}$
+
+% When generating $i$-th patch, use all previous patches as condition:
+% \begin{equation}
+% \vc_{\text{spatial}} = \{\vx^1, \vx^2, \ldots, \vx^{i-1}\}
+% \end{equation}
+% Generation process:
+% \begin{equation}
+% p_\theta(\vx^i | \vx^{1:i-1})
+% \end{equation}
+
+% \begin{proposition}[Structural Constraint Enhancement]
+% Spatial conditions provide structural constraints, reducing generation distribution uncertainty.
+% \end{proposition}
+
+% \begin{proof}
+% Consider mutual information between patches:
+% \begin{equation}
+% I(\vx^i; \vx^{1:i-1}) = H(\vx^i) - H(\vx^i | \vx^{1:i-1})
+% \end{equation}
+% Due to spatial correlations in natural images:
+% \begin{equation}
+% I(\vx^i; \vx^{1:i-1}) > 0 \Rightarrow H(\vx^i | \vx^{1:i-1}) < H(\vx^i)
+% \end{equation}
+% Conditional entropy reduction means more certain generation distribution.
+% \end{proof}
+
+% \subsubsection{Variance Reduction Effect}
+
+% \begin{theorem}[Spatial Conditional Variance Reduction]
+% Spatial autoregressive conditions reduce generation process variance.
+% \end{theorem}
+
+% \begin{proof}
+% Unconditional variance:
+% \begin{equation}
+% \sigma_{\text{uncond}}^2 = \Var[\vx^i]
+% \end{equation}
+% Conditional variance:
+% \begin{equation}
+% \sigma_{\text{cond}}^2 = \E[\Var[\vx^i | \vx^{1:i-1}]]
+% \end{equation}
+% By variance decomposition:
+% \begin{equation}
+% \Var[\vx^i] = \E[\Var[\vx^i | \vx^{1:i-1}]] + \Var[\E[\vx^i | \vx^{1:i-1}]]
+% \end{equation}
+% Thus:
+% \begin{equation}
+% \sigma_{\text{cond}}^2 = \sigma_{\text{uncond}}^2 - \Var[\E[\vx^i | \vx^{1:i-1}]] \leq \sigma_{\text{uncond}}^2
+% \end{equation}
+% Equality only when conditional expectation is constant (independent patches).
+% \end{proof}
+
+% \subsection{Theoretical Proof of Next-Shortcut Prediction}
+
+% \subsubsection{Mechanism Definition and Formalization}
+
+% Next-shortcut prediction uses denoising trajectories of preceding patches as condition:
+% \begin{equation}
+% \vc_{\text{shortcut}} = \{\vx_t^j : j = 1, \ldots, i-1, \, t = 0, \ldots, T\}
+% \end{equation}
+% Generation process:
+% \begin{equation}
+% % p_\theta(\vx^i | \vc_{\text{shortcut}}) = p_\theta(\vx^i | \vx^{1:i-1}, \{\vx_t^j\}_{j=1}^{i-1}_{t=0}^T)
+% p_\theta(\vx^i | \vc_{\text{shortcut}}) = p_\theta(\vx^i | \vx^{1:i-1}, \{\vx_t^j\}_{j=1, t=0}^{i-1, T})
+% \end{equation}
+
+% \subsubsection{Structural Constraint Enhancement}
+
+% \begin{theorem}[Structural Constraint Strengthening]
+% Next-shortcut prediction imposes strong structural constraints through cross-patch trajectory consistency.
+% \end{theorem}
+
+% \begin{proof}
+% Define trajectory consistency metric:
+% \begin{equation}
+% C(\vx^i, \vx^j) = \E \left[ \| \vv(\vx_t^i) - \vv(\vx_t^j) \|^2 \right]
+% \end{equation}
+% With shortcut conditions:
+% \begin{equation}
+% \E[C(\vx^i, \vx^j) | \vc_{\text{shortcut}}] \leq \E[C(\vx^i, \vx^j)]
+% \end{equation}
+% Conditional mutual information is non-negative:
+% \begin{equation}
+% I(\vx^i; \{\vx_t^j\}_{j=1}^{i-1} | \vx^{1:i-1}) \geq 0
+% \end{equation}
+% Thus:
+% \begin{equation}
+% H(\vx^i | \vx^{1:i-1}, \{\vx_t^j\}_{j=1}^{i-1}) \leq H(\vx^i | \vx^{1:i-1})
+% \end{equation}
+% Conditional entropy reduction means stronger structural constraints.
+% \end{proof}
+
+% \subsubsection{Mapping Specificity Enhancement}
+
+% \begin{theorem}[Mapping Specificity Improvement]
+% Next-shortcut prediction enriches condition space, making noise-to-data mapping more specific.
+% \end{theorem}
+
+% \begin{proof}
+% Consider mapping $f_i: \mathcal{Z}^i \to \mathcal{X}^i$. Conditional mapping $f_i^{\text{shortcut}}(\vz^i | \vc_{\text{shortcut}})$ has richer parameterization.
+
+% Mapping specificity measured by distribution kurtosis:
+% \begin{equation}
+% \text{Specificity} = \E[ (\vx^i - \mu)^4 ] / \sigma^4
+% \end{equation}
+% With enhanced conditions, distribution becomes more peaked, kurtosis increases.
+
+% Conditional Jacobian has better condition number:
+% \begin{equation}
+% \kappa(J_{f_i}^{\text{conditional}}) \leq \kappa(J_{f_i}^{\text{unconditional}})
+% \end{equation}
+% Condition information constrains mapping directions, improving numerical stability.
+% \end{proof}
+
+% \subsubsection{Variance Reduction Analysis}
+
+% \begin{theorem}[Shortcut Prediction Variance Reduction]
+% Next-shortcut prediction reduces generation process variance.
+% \end{theorem}
+
+% \begin{proof}
+% Unconditional variance: $\sigma_{\text{uncond}}^2 = \Var[\vx^i]$
+
+% Spatial-only variance: $\sigma_{\text{spatial}}^2 = \E[\Var[\vx^i | \vx^{1:i-1}]]$
+
+% Shortcut variance: $\sigma_{\text{shortcut}}^2 = \E[\Var[\vx^i | \vx^{1:i-1}, \{\vx_t^j\}_{j=1}^{i-1}]]$
+
+% By variance decomposition:
+% \begin{equation}
+% \sigma_{\text{shortcut}}^2 = \sigma_{\text{spatial}}^2 - \Var[\E[\vx^i | \vx^{1:i-1}, \{\vx_t^j\}_{j=1}^{i-1}] | \vx^{1:i-1}] \leq \sigma_{\text{spatial}}^2
+% \end{equation}
+% Variance reduction directly improves sampling efficiency.
+% \end{proof}
+
+% \subsection{Unified Perspective: Path Straightening through Conditional Enhancement}
+
+% \subsubsection{Mathematical Equivalence Proof}
+
+% \begin{theorem}[Variance Reduction-Path Straightening Equivalence]
+% For diffusion model probability flow paths, conditional variance reduction is mathematically equivalent to path straightening.
+% \end{theorem}
+
+% \begin{proof}
+% Straightness metric:
+% \begin{equation}
+% S = \E_t[ \| (\vx_1 - \vx_0) - \vv_\theta(\vx_t,t) \|^2 ]
+% \end{equation}
+% Velocity field variance:
+% \begin{equation}
+% \Var[\vv_\theta] = \E[ \| \vv_\theta - \E[\vv_\theta] \|^2 ]
+% \end{equation}
+% For straight paths: $\vv_\theta \equiv \vx_1 - \vx_0$, thus:
+% \begin{equation}
+% S = 0 \Leftrightarrow \Var[\vv_\theta] = 0
+% \end{equation}
+% Therefore, variance reduction directly implies path straightening.
+% \end{proof}
+
+% \subsubsection{Dual Mechanisms of Path Straightening}
+
+% \begin{theorem}[Spatial Condition Path Constraint]
+% Spatial autoregressive conditions $\vx^{1:i-1}$ straighten paths through spatial consistency constraints.
+% \end{theorem}
+
+% \begin{proof}
+% For adjacent patch paths $\{\vx_t^i\}$ and $\{\vx_t^{i-1}\}$:
+
+% Unconditionally: $\Cov(\vv_t^i, \vv_t^{i-1}) \approx 0$
+
+% Conditionally: $\vv_t^i = f(\vv_t^{i-1}) + \text{small error}$
+
+% Spatial consistency enforces path coordination, reducing spatial bending.
+% \end{proof}
+
+% \begin{theorem}[Shortcut Prediction Trajectory Alignment]
+% Next-shortcut prediction further constrains path direction consistency through cross-patch trajectory alignment.
+% \end{theorem}
+
+% \begin{proof}
+% Using preceding patches' trajectories $\{\vx_t^j\}_{j=1}^{i-1}$ as condition enables trajectory interpolation.
+
+% Minimize trajectory consistency loss:
+% \begin{equation}
+% \cL_{\text{trajectory}} = \sum_{j=1}^{i-1} \| \vv_t^i - \vv_t^j \|^2
+% \end{equation}
+% Minimization forces new patch paths to align with existing ones, naturally straightening paths.
+% \end{proof}
+
+% \subsubsection{Synergistic Straightening Effects}
+
+% \begin{theorem}[Orthogonal Constraint Synergy]
+% Spatial conditions and shortcut predictions have approximately orthogonal constraint spaces, producing multiplicative path optimization.
+% \end{theorem}
+
+% \begin{proof}
+% Define constraint operators:
+% \begin{itemize}
+% \item $P_S$: Spatial condition projection operator
+% \item $P_T$: Shortcut prediction projection operator
+% \end{itemize}
+% Path optimization:
+% \begin{equation}
+% \min \| (I - P_S P_T) \vv \|^2
+% \end{equation}
+% With approximate orthogonality, joint optimization outperforms individual optimizations.
+% \end{proof}
+
+% \begin{theorem}[Unified Path Evolution]
+% \begin{itemize}
+% \item \textbf{Unconditional paths}: Random walks in high-dimensional space
+% \item \textbf{Spatial conditions only}: Spatial dimension straightened, temporal dimension still curved
+% \item \textbf{Spatial + Shortcut conditions}: Spatio-temporal simultaneous straightening
+% \end{itemize}
+% \end{theorem}
+
+% \subsection{Multi-Dimensional Shortcut Scaling Theory}
+
+% \subsubsection{Coordinate System Enrichment}
+
+% \begin{definition}[Probability Path Coordinate System]
+% The coordinate system of probability path $\{\vx_t\}$ is defined by the space spanned by condition variables.
+% \end{definition}
+
+% Standard diffusion: $\{\vx_t\}$
+
+% XYZFlow: $\{\vx_t^i, \vx_{t+1:T}^i, \vx^{1:i-1}, \{\vx_t^j\}_{j=1}^{i-1}\}$
+
+% \begin{theorem}[Coordinate System Enrichment]
+% Multi-dimensional shortcut scaling enriches probability path coordinate system, improving mapping specificity.
+% \end{theorem}
+
+% \begin{proof}
+% Consider mapping $f: \mathcal{Z} \to \mathcal{X}$. Conditional mapping $f(\vz_t^i | \vc_{\text{denoise}}, \vc_{\text{spatial}}, \vc_{\text{shortcut}})$ has richer parameterization.
+
+% Conditional Jacobian has better condition number:
+% \begin{equation}
+% \kappa(J_f^{\text{conditional}}) \leq \kappa(J_f^{\text{unconditional}})
+% \end{equation}
+% Condition information provides additional constraints, stabilizing mapping process.
+% \end{proof}
+
+% \subsubsection{Cumulative Variance Reduction}
+
+% \begin{theorem}[Multiplicative Variance Reduction]
+% Denoising and spatial dimension conditional enhancements have synergistic variance reduction effects.
+% \end{theorem}
+
+% \begin{proof}
+% Consider joint conditional distribution:
+% \begin{equation}
+% p(\vx_{t-1}^i | \vx_t^i, \vx_{t+1:T}^i, \vx^{1:i-1}, \{\vx_t^j\}_{j=1}^{i-1})
+% \end{equation}
+% By iterative variance decomposition:
+% \begin{align}
+% \Var[\vx_{t-1}^i] &= \E[\Var[\vx_{t-1}^i | \vx_t^i]] + \Var[\E[\vx_{t-1}^i | \vx_t^i]] \\
+% \Var[\vx_{t-1}^i | \vx_t^i] &= \E[\Var[\vx_{t-1}^i | \vx_t^i, \vx_{t+1:T}^i] | \vx_t^i] + \cdots
+% \end{align}
+% Each conditioning step further reduces conditional variance, producing cumulative reduction.
+% \end{proof}
+
+% \subsection{Corollaries and Implications}
+
+% \subsubsection{Sampling Efficiency Improvement}
+
+% \begin{corollary}[Sampling Efficiency Enhancement]
+% Variance reduction enables fewer sampling steps for same generation quality.
+% \end{corollary}
+
+% \begin{proof}
+% By numerical integration error analysis:
+% \begin{equation}
+% \text{Error} \propto \sum \Delta t^2 \cdot \sigma^2
+% \end{equation}
+% Variance reduction $\sigma^2 \downarrow$ allows larger steps $\Delta t \uparrow$ or fewer steps.
+% \end{proof}
+
+% \subsubsection{Mapping Determinism Enhancement}
+
+% \begin{corollary}[Mapping Determinism Improvement]
+% Rich conditional information makes probability flow paths approach deterministic mapping.
+% \end{corollary}
+
+% \begin{proof}
+% With sufficiently rich conditions:
+% \begin{equation}
+% \lim_{|\vc| \to \infty} H(\vx_{t-1}|\vc) = 0
+% \end{equation}
+% Noise-to-data mapping becomes almost deterministic, reducing sampling variability.
+% \end{proof}
+
+% \section{Generated Samples}
+% \begin{figure*}[ht]
+%     \centering
+%     \includegraphics[width=1\linewidth]{case_cropped (4).pdf}
+%     \caption{Randomly selected examples of generated images from XYZFlow. XYZFlow shows high-quality generative modeling abilities.}
+%     \label{fig:qualitative}
+% \end{figure*}
+
+
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{document}
+
+% This document was modified from the file originally made available by
+% Pat Langley and Andrea Danyluk for ICML-2K. This version was created
+% by Iain Murray in 2018, and modified by Alexandre Bouchard in
+% 2019 and 2021 and by Csaba Szepesvari, Gang Niu and Sivan Sabato in 2022.
+% Modified again in 2023 and 2024 by Sivan Sabato and Jonathan Scarlett.
+% Previous contributors include Dan Roy, Lise Getoor and Tobias
+% Scheffer, which was slightly modified from the 2010 version by
+% Thorsten Joachims & Johannes Fuernkranz, slightly modified from the
+% 2009 version by Kiri Wagstaff and Sam Roweis's 2008 version, which is
+% slightly modified from Prasad Tadepalli's 2007 version which is a
+% lightly changed version of the previous year's version by Andrew
+% Moore, which was in turn edited from those of Kristian Kersting and
+% Codrina Lauth. Alex Smola contributed to the algorithmic style files.

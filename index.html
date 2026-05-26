@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>XYZFlow — Scaling Multidimensional Shortcut Flows</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="hero">
+    <div class="container">
+      <p class="eyebrow">ICML 2026</p>
+      <h1>XYZFlow: Scaling Multidimensional Shortcut Flows for Efficient Generative Modeling</h1>
+      <p class="authors">Jinxiu Liu, Xuanming Liu, Kangfu Mei, Yandong Wen, Weiyang Liu</p>
+      <p class="tagline">
+        A spatio-temporal framework for few-step generation that combines historical trajectory conditioning
+        with Next Shortcut Prediction for stronger quality-efficiency trade-offs.
+      </p>
+      <div class="actions">
+        <a class="button primary" href="paper/example_paper.pdf">Paper PDF</a>
+        <a class="button" href="paper/camera_ready.tex">LaTeX Source</a>
+        <span class="button disabled" aria-disabled="true">Code (Coming soon)</span>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="section">
+      <div class="container two-col">
+        <div>
+          <h2>Overview</h2>
+          <p>
+            XYZFlow revisits efficient generative modeling from an architectural perspective. Instead of relying
+            only on stronger distillation objectives or larger models, it increases the expressivity of the
+            probability flow through two coupled dimensions: temporal conditioning on denoising history and
+            spatial autoregression over image patches.
+          </p>
+          <p>
+            The key mechanism, <strong>Next Shortcut Prediction</strong>, transfers the denoising trajectory of
+            earlier patches to later ones, enabling aggressive step reduction while preserving image fidelity.
+          </p>
+        </div>
+        <figure class="card figure-frame">
+          <img src="assets/preview_label0_step050_sample0001.png" alt="XYZFlow sample preview" />
+          <figcaption>Sample generated with the XYZFlow pipeline.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section alt">
+      <div class="container">
+        <h2>Abstract</h2>
+        <p class="abstract">
+          We propose XYZFlow, a spatio-temporal framework for efficient few-step generation. XYZFlow conditions
+          each denoising step on historical states and sequentially generates patches with trajectory-level priors
+          from preceding patches. This multidimensional conditioning makes probability flows more structured,
+          easier to predict, and more suitable for accelerated generation. Across model scales, XYZFlow achieves
+          strong quality-efficiency trade-offs and remains robust under weaker teachers and across teachers of
+          different strengths.
+        </p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <h2>Key Ideas</h2>
+        <div class="grid three">
+          <article class="card">
+            <h3>Temporal Scaling</h3>
+            <p>Condition each denoising step on the full history of previous states to straighten the reverse trajectory.</p>
+          </article>
+          <article class="card">
+            <h3>Spatial Scaling</h3>
+            <p>Decompose images into patches and generate later patches using the denoising trajectories of earlier ones.</p>
+          </article>
+          <article class="card">
+            <h3>Shortcut Scheduling</h3>
+            <p>Use progressive schedules such as <code>5→4→3→2</code> to reduce total denoising steps without hurting fidelity.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section alt">
+      <div class="container">
+        <h2>Highlights</h2>
+        <div class="grid three metrics">
+          <article class="card metric">
+            <span class="value">36.1×</span>
+            <span class="label">Speed-up for XYZFlow-B over its teacher</span>
+          </article>
+          <article class="card metric">
+            <span class="value">1.63</span>
+            <span class="label">FID for XYZFlow-B with GAN</span>
+          </article>
+          <article class="card metric">
+            <span class="value">1.74</span>
+            <span class="label">FID under a weaker DiT/XL-2 teacher</span>
+          </article>
+        </div>
+        <div class="callout card">
+          <p>
+            The paper also shows that XYZFlow remains competitive under weaker teachers: with DiT/XL-2 (25-step)
+            as teacher, progressive XYZFlow-B reaches <strong>1.74 FID</strong> after GAN fine-tuning, outperforming
+            standard 5-step distillation baselines by a large margin. Code and training recipes will be released soon.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <h2>Visual Samples</h2>
+        <div class="gallery">
+          <figure class="card figure-frame">
+            <img src="assets/preview_step050_label005_sample0002.png" alt="Generated sample 1" />
+            <figcaption>Class-conditional sample.</figcaption>
+          </figure>
+          <figure class="card figure-frame">
+            <img src="assets/xar_h_sample.png" alt="Generated sample 2" />
+            <figcaption>Teacher-side sample reference.</figcaption>
+          </figure>
+          <figure class="card figure-frame">
+            <img src="assets/label000_seed42.png" alt="Generated sample 3" />
+            <figcaption>Generated image example.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="section alt">
+      <div class="container two-col">
+        <div>
+          <h2>Resources</h2>
+          <ul class="resource-list">
+            <li><a href="paper/example_paper.pdf">Paper PDF</a></li>
+            <li><a href="paper/camera_ready.tex">Camera-ready source</a></li>
+            <li><a href="scripts/train_xar_teacher_student_fullpass.py">Training entrypoint</a></li>
+            <li><a href="scripts/run_patchschedule_10.sh">Patch schedule script</a></li>
+          </ul>
+        </div>
+        <div class="card citation">
+          <h2>Citation</h2>
+          <pre>@inproceedings{liu2026xyzflow,
+  title={XYZFlow: Scaling Multidimensional Shortcut Flows for Efficient Generative Modeling},
+  author={Liu, Jinxiu and Liu, Xuanming and Mei, Kangfu and Wen, Yandong and Liu, Weiyang},
+  booktitle={International Conference on Machine Learning},
+  year={2026}
+}</pre>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
