@@ -3,122 +3,50 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>XYZFlow — Scaling Multidimensional Shortcut Flows</title>
+  <title>XYZFlow</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <header class="hero">
-    <div class="container">
-      <p class="eyebrow">ICML 2026</p>
-      <h1>XYZFlow: Scaling Multidimensional Shortcut Flows for Efficient Generative Modeling</h1>
-      <p class="authors">Jinxiu Liu, Xuanming Liu, Kangfu Mei, Yandong Wen, Weiyang Liu</p>
-      <p class="tagline">
-        A spatio-temporal framework for few-step generation that combines historical trajectory conditioning
-        with Next Shortcut Prediction for stronger quality-efficiency trade-offs.
-      </p>
-      <div class="actions">
-        <a class="button primary" href="paper/example_paper.pdf">Paper PDF</a>
-        <a class="button" href="paper/camera_ready.tex">LaTeX Source</a>
-        <span class="button disabled" aria-disabled="true">Code (Coming soon)</span>
-      </div>
-    </div>
-  </header>
-
   <main>
-    <section class="section">
-      <div class="container two-col">
-        <div>
-          <h2>Overview</h2>
-          <p>
-            XYZFlow revisits efficient generative modeling from an architectural perspective. Instead of relying
-            only on stronger distillation objectives or larger models, it increases the expressivity of the
-            probability flow through two coupled dimensions: temporal conditioning on denoising history and
-            spatial autoregression over image patches.
-          </p>
-          <p>
-            The key mechanism, <strong>Next Shortcut Prediction</strong>, transfers the denoising trajectory of
-            earlier patches to later ones, enabling aggressive step reduction while preserving image fidelity.
-          </p>
+    <section class="hero section alt">
+      <div class="container">
+        <p class="eyebrow">Research Project</p>
+        <h1>XYZFlow: Scaling Multidimensional Shortcut Flows for Efficient Generative Modeling</h1>
+        <p class="subtitle">
+          XYZFlow studies how to scale multidimensional shortcut flows for efficient generative modeling,
+          with a focus on improving sample quality, training stability, and inference efficiency under
+          progressive distillation settings.
+        </p>
+        <div class="hero-actions">
+          <a class="button primary" href="../31669_XYZFlow_Scaling_Multidim%20(2).pdf">Read Paper</a>
+          <span class="button ghost">Code coming soon</span>
         </div>
-        <figure class="card figure-frame">
-          <img src="assets/preview_label0_step050_sample0001.png" alt="XYZFlow sample preview" />
-          <figcaption>Sample generated with the XYZFlow pipeline.</figcaption>
-        </figure>
       </div>
     </section>
 
-    <section class="section alt">
-      <div class="container">
-        <h2>Abstract</h2>
-        <p class="abstract">
-          We propose XYZFlow, a spatio-temporal framework for efficient few-step generation. XYZFlow conditions
-          each denoising step on historical states and sequentially generates patches with trajectory-level priors
-          from preceding patches. This multidimensional conditioning makes probability flows more structured,
-          easier to predict, and more suitable for accelerated generation. Across model scales, XYZFlow achieves
-          strong quality-efficiency trade-offs and remains robust under weaker teachers and across teachers of
-          different strengths.
+    <section class="section">
+      <div class="container narrow">
+        <h2>About the Paper</h2>
+        <p>
+          This paper presents XYZFlow, a framework for scaling multidimensional shortcut flows in a way that
+          better balances generation quality and efficiency. The core goal is to make fast generative models
+          more practical without sacrificing the performance gains typically associated with larger or slower
+          teacher models.
+        </p>
+        <p>
+          The project explores progressive training and efficient flow-based design choices, aiming to provide
+          a clearer path toward strong few-step generation. Full technical details are available in the paper.
         </p>
       </div>
     </section>
 
-    <section class="section">
-      <div class="container">
-        <h2>Key Ideas</h2>
-        <div class="grid three">
-          <article class="card">
-            <h3>Temporal Scaling</h3>
-            <p>Condition each denoising step on the full history of previous states to straighten the reverse trajectory.</p>
-          </article>
-          <article class="card">
-            <h3>Spatial Scaling</h3>
-            <p>Decompose images into patches and generate later patches using the denoising trajectories of earlier ones.</p>
-          </article>
-          <article class="card">
-            <h3>Shortcut Scheduling</h3>
-            <p>Use progressive schedules such as <code>5→4→3→2</code> to reduce total denoising steps without hurting fidelity.</p>
-          </article>
-        </div>
-      </div>
-    </section>
-
     <section class="section alt">
-      <div class="container">
-        <h2>Highlights</h2>
-        <div class="grid three metrics">
-          <article class="card metric">
-            <span class="value">36.1×</span>
-            <span class="label">Speed-up for XYZFlow-B over its teacher</span>
-          </article>
-          <article class="card metric">
-            <span class="value">1.63</span>
-            <span class="label">FID for XYZFlow-B with GAN</span>
-          </article>
-          <article class="card metric">
-            <span class="value">1.74</span>
-            <span class="label">FID under a weaker DiT/XL-2 teacher</span>
-          </article>
-        </div>
-        <div class="callout card">
-          <p>
-            The paper also shows that XYZFlow remains competitive under weaker teachers: with DiT/XL-2 (25-step)
-            as teacher, progressive XYZFlow-B reaches <strong>1.74 FID</strong> after GAN fine-tuning, outperforming
-            standard 5-step distillation baselines by a large margin. Code and training recipes will be released soon.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <section class="section alt">
-      <div class="container">
-        <div>
-          <h2>Resources</h2>
-          <ul class="resource-list">
-            <li><a href="paper/example_paper.pdf">Paper PDF</a></li>
-            <li><a href="paper/camera_ready.tex">Camera-ready source</a></li>
-            <li><a href="scripts/train_xar_teacher_student_fullpass.py">Training entrypoint</a></li>
-            <li><a href="scripts/run_patchschedule_10.sh">Patch schedule script</a></li>
-          </ul>
-        </div>
+      <div class="container narrow">
+        <h2>Links</h2>
+        <ul class="resource-list">
+          <li><a href="../31669_XYZFlow_Scaling_Multidim%20(2).pdf">Paper PDF</a></li>
+          <li>Code: coming soon</li>
+        </ul>
       </div>
     </section>
   </main>
